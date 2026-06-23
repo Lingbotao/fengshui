@@ -1,0 +1,19 @@
+# 依赖
+node_modules/
+miniprogram/miniprogram_npm/
+miniprogram/package-lock.json
+
+# 云函数依赖（每个云函数有独立的 node_modules）
+cloudfunctions/*/node_modules/
+cloudfunctions/*/package-lock.json
+
+# 系统
+.DS_Store
+Thumbs.db
+
+# IDE 私有配置（每人本地不同，不提交）
+project.private.config.json
+
+# 日志
+*.log
+npm-debug.log*
