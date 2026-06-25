@@ -1,0 +1,238 @@
+/**
+ * 设置页样式
+ */
+
+page {
+  background: var(--color-bg);
+  padding-bottom: 120rpx;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 32rpx;
+}
+
+.status-bar-placeholder {
+  width: 100%;
+}
+
+/* ==================== 导航栏 ==================== */
+.nav-header {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  margin-bottom: 16rpx;
+}
+
+.back-btn {
+  font-size: 28rpx;
+  color: var(--color-primary);
+  padding: 16rpx 0;
+}
+
+.nav-title {
+  font-size: 36rpx;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-left: 32rpx;
+}
+
+/* ==================== 表单区 ==================== */
+.form-section {
+  background: var(--color-card);
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(61, 50, 41, 0.06);
+  overflow: hidden;
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx 24rpx;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+}
+
+.form-value {
+  display: flex;
+  align-items: center;
+}
+
+.zodiac-emoji {
+  font-size: 32rpx;
+  margin-right: 8rpx;
+}
+
+.zodiac-text,
+.gender-text,
+.year-text {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  margin-right: 8rpx;
+}
+
+.arrow {
+  font-size: 24rpx;
+  color: var(--color-text-hint);
+  transition: transform 0.2s;
+}
+
+.arrow.arrow-up {
+  transform: rotate(-90deg);
+}
+
+.form-divider {
+  height: 1rpx;
+  background: var(--color-divider);
+  margin-left: 24rpx;
+}
+
+/* ==================== 下拉列表 ==================== */
+.dropdown-list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 16rpx 24rpx;
+  background: var(--color-bg);
+  border-top: 1rpx solid var(--color-divider);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(25% - 12rpx);
+  margin-right: 16rpx;
+  margin-bottom: 12rpx;
+  padding: 16rpx 0;
+  background: var(--color-card);
+  border: 2rpx solid var(--color-divider);
+  border-radius: 8rpx;
+  font-size: 26rpx;
+}
+
+.dropdown-item:nth-child(4n) {
+  margin-right: 0;
+}
+
+.dropdown-item.active {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+}
+
+.item-emoji {
+  font-size: 28rpx;
+  margin-right: 4rpx;
+}
+
+.item-text {
+  color: var(--color-text-primary);
+}
+
+/* 年份下拉特殊处理 */
+.dropdown-year {
+  max-height: 400rpx;
+}
+
+.year-scroll {
+  height: 360rpx;
+  width: 100%;
+}
+
+/* 性别按钮 */
+.dropdown-gender {
+  padding: 16rpx 24rpx;
+}
+
+.gender-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  background: var(--color-card);
+  border: 2rpx solid var(--color-divider);
+  border-radius: 16rpx;
+  font-size: 32rpx;
+  margin: 0 8rpx;
+}
+
+.gender-btn.active {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+}
+
+/* 日期三列选择器 */
+.date-picker {
+  display: flex;
+  padding: 16rpx 24rpx;
+  background: var(--color-bg);
+  border-top: 1rpx solid var(--color-divider);
+}
+
+.date-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 8rpx;
+}
+
+.date-col-header {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  margin-bottom: 8rpx;
+}
+
+.date-scroll {
+  height: 280rpx;
+  width: 100%;
+}
+
+.date-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56rpx;
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+}
+
+.date-item.active {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+/* ==================== 说明文字 ==================== */
+.form-tip {
+  font-size: 24rpx;
+  color: var(--color-text-hint);
+  text-align: center;
+  margin-top: 24rpx;
+  margin-bottom: 48rpx;
+}
+
+/* ==================== 保存按钮 ==================== */
+.save-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  background: var(--color-primary);
+  color: #FFFFFF;
+  border-radius: 999rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+/* ==================== 底部标注 ==================== */
+.footer-note {
+  font-size: 24rpx;
+  color: var(--color-text-hint);
+  text-align: center;
+  padding: 32rpx 0 64rpx;
+}

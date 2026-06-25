@@ -1,0 +1,133 @@
+/**
+ * 运势页样式
+ */
+
+page {
+  background: var(--color-bg);
+  padding-bottom: 120rpx;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 32rpx;
+}
+
+.status-bar-placeholder {
+  width: 100%;
+}
+
+/* ==================== 生肖切换引导 ==================== */
+.zodiac-switch {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  margin-bottom: 16rpx;
+}
+
+.zodiac-icon {
+  font-size: 36rpx;
+  margin-right: 8rpx;
+}
+
+.zodiac-text {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-right: 16rpx;
+}
+
+.switch-hint {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  margin-left: auto;
+}
+
+/* ==================== 运势卡片 ==================== */
+.fortune-card {
+  background: var(--color-card);
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(61, 50, 41, 0.06);
+  padding: 24rpx;
+  margin-bottom: 32rpx;
+}
+
+.fortune-title {
+  font-size: 36rpx;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  text-align: center;
+  margin-bottom: 32rpx;
+}
+
+.fortune-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.fortune-item {
+  display: flex;
+  font-size: 28rpx;
+  line-height: 1.8;
+}
+
+.dimension-label {
+  font-weight: 500;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.dimension-content {
+  color: var(--color-text-primary);
+}
+
+.fortune-decor {
+  height: 40rpx;
+  margin-top: 24rpx;
+  background: linear-gradient(to bottom, var(--color-divider), transparent);
+  opacity: 0.5;
+}
+
+/* ==================== 分享按钮 ==================== */
+.share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  border-radius: 999rpx;
+  border: 2rpx solid var(--color-divider);
+  margin-bottom: 32rpx;
+  position: relative;
+}
+
+.share-btn-text {
+  font-size: 28rpx;
+  color: var(--color-text-hint);
+}
+
+.coming-tag {
+  position: absolute;
+  right: 24rpx;
+  top: -10rpx;
+  font-size: 20rpx;
+  color: #FFFFFF;
+  background: var(--color-accent);
+  padding: 4rpx 12rpx;
+  border-radius: 4rpx;
+}
+
+/* ==================== Banner 广告 ==================== */
+.banner-area {
+  width: 100%;
+  height: 120rpx;
+  margin-bottom: 32rpx;
+}
+
+/* ==================== 底部标注 ==================== */
+.footer-note {
+  font-size: 24rpx;
+  color: var(--color-text-hint);
+  text-align: center;
+  padding: 32rpx 0 64rpx;
+}

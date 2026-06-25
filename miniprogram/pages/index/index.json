@@ -1,6 +1,9 @@
 {
-  "navigationBarTitleText": "基础能力",
+  "navigationBarTitleText": "奇门吉兆",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "light",
   "usingComponents": {
-    "cloud-tip-modal": "/components/cloudTipModal/index"
+    "van-button": "@vant/weapp/button/index",
+    "van-icon": "@vant/weapp/icon/index"
   }
 }

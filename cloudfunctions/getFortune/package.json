@@ -1,0 +1,10 @@
+{
+  "name": "getFortune",
+  "version": "1.0.0",
+  "description": "获取运势数据",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.4.0",
+    "dayjs": "^1.11.0"
+  }
+}

@@ -1,0 +1,41 @@
+<!--pages/compass/compass.wxml-->
+<view class="page-container">
+  <!--状态栏占位-->
+  <view class="status-bar-placeholder" style="height:{{statusBarHeight}}px"></view>
+
+  <!--罗盘容器-->
+  <view class="compass-container">
+    <canvas type="2d" id="compassCanvas" class="compass-canvas"></canvas>
+  </view>
+
+  <!--方位信息-->
+  <view class="direction-info">
+    <text class="direction-main">{{directionMain}}</text>
+    <text class="direction-sub">{{directionSub}}</text>
+    <text class="direction-angle">{{directionAngle}}</text>
+  </view>
+
+  <!--校准提示-->
+  <view class="calibrate-tip" wx:if="{{showCalibrateTip}}">
+    <text>⚠️ 请水平持握手机，绕 Z 轴缓慢旋转以校准</text>
+  </view>
+
+  <!--手动旋转提示-->
+  <view class="manual-tip" wx:if="{{manualMode}}">
+    <text>设备不支持自动旋转，请用手指滑动罗盘</text>
+  </view>
+
+  <!--权限引导-->
+  <view class="permission-guide" wx:if="{{showPermissionGuide}}">
+    <view class="guide-content">
+      <text class="guide-icon">🧭</text>
+      <text class="guide-title">需要「陀螺仪」权限</text>
+      <text class="guide-desc">用于实时显示罗盘方位</text>
+      <button class="guide-btn" bindtap="requestPermission">前往授权</button>
+      <text class="guide-skip" bindtap="skipPermission">暂不使用</text>
+    </view>
+  </view>
+
+  <!--仅供娱乐参考-->
+  <view class="footer-note">仅供娱乐参考</view>
+</view>

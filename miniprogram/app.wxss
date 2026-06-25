@@ -1,27 +1,207 @@
-/**app.wxss**/
+/**
+ * 奇门吉兆 · 全局设计系统
+ * 基于 UI 规格书 v1.0
+ * 新中式 + 治愈感
+ */
+
+/* ==================== 色彩体系 ==================== */
+page {
+  /* 主色 */
+  --color-primary: #C4825C;
+  --color-primary-light: #E8D5C4;
+  /* 辅助色 */
+  --color-secondary: #6B8F71;
+  /* 点缀色 */
+  --color-accent: #D4A843;
+  /* 背景色 */
+  --color-bg: #FBF8F3;
+  --color-card: #FFFFFF;
+  /* 文字色 */
+  --color-text-primary: #3D3229;
+  --color-text-secondary: #8C7B6B;
+  --color-text-hint: #BFB3A6;
+  /* 分割线 */
+  --color-divider: #F0EBE3;
+  /* 状态色 */
+  --color-danger: #C46B5C;
+  --color-success: #6B8F71;
+  --color-warning: #D4A843;
+
+  /* 背景 */
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+}
+
+/* ==================== 字体层级 ==================== */
+/* h1 - 页面大标题 */
+.text-h1 {
+  font-size: 44rpx;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* h2 - 卡片标题 */
+.text-h2 {
+  font-size: 36rpx;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* h3 - 功能区块标题 */
+.text-h3 {
+  font-size: 32rpx;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* body - 正文 */
+.text-body {
+  font-size: 28rpx;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* caption - 辅助说明 */
+.text-caption {
+  font-size: 24rpx;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* small - 极度次要信息 */
+.text-small {
+  font-size: 20rpx;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* ==================== 间距体系 ==================== */
+.space-xs {
+  margin: 8rpx;
+}
+.space-sm {
+  margin: 16rpx;
+}
+.space-md {
+  margin: 24rpx;
+}
+.space-lg {
+  margin: 32rpx;
+}
+.space-xl {
+  margin: 48rpx;
+}
+.space-2xl {
+  margin: 64rpx;
+}
+
+/* ==================== 圆角规范 ==================== */
+.radius-sm {
+  border-radius: 8rpx;
+}
+.radius-md {
+  border-radius: 16rpx;
+}
+.radius-lg {
+  border-radius: 24rpx;
+}
+.radius-full {
+  border-radius: 999rpx;
+}
+
+/* ==================== 阴影规范 ==================== */
+.shadow-card {
+  box-shadow: 0 4rpx 16rpx rgba(61, 50, 41, 0.06);
+}
+.shadow-elevated {
+  box-shadow: 0 8rpx 24rpx rgba(61, 50, 41, 0.10);
+}
+.shadow-nav {
+  box-shadow: 0 -2rpx 8rpx rgba(61, 50, 41, 0.04);
+}
+
+/* ==================== 通用样式 ==================== */
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-} 
+}
 
+/* 页面容器 */
+.page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 卡片通用样式 */
+.card {
+  background: var(--color-card);
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(61, 50, 41, 0.06);
+  padding: 24rpx;
+}
+
+/* 按钮通用样式 */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  border-radius: 999rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+.btn-primary {
+  background: var(--color-primary);
+  color: #FFFFFF;
+}
+.btn-secondary {
+  background: var(--color-card);
+  color: var(--color-text-primary);
+  border: 2rpx solid var(--color-divider);
+}
+
+/* 分割线 */
+.divider {
+  height: 1rpx;
+  background: var(--color-divider);
+  width: 100%;
+}
+
+/* Flex 工具类 */
+.flex {
+  display: flex;
+}
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 通用重置 */
 button {
   background: initial;
+  padding: 0;
+  margin: 0;
+  line-height: inherit;
 }
-
-button:focus{
-  outline: 0;
-}
-
-button::after{
+button::after {
   border: none;
 }
 
-
-page {
-  background: #f6f6f6;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+/* 状态栏占位 */
+.status-bar-placeholder {
+  height: var(--status-bar-height, 44rpx);
 }

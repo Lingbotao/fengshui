@@ -1,142 +1,281 @@
-/**index.wxss**/
+/**
+ * 首页样式 - 每日宜忌 + 五行穿衣
+ * 基于 UI 规格书 v1.0
+ */
 
 page {
-  padding-top: 54rpx;
-  background-color: #f6f6f6;
-  padding-bottom: 60rpx;
+  background: var(--color-bg);
+  padding-bottom: 120rpx;
 }
 
-.container {
-  font-family: PingFang SC;
-}
-
-.title {
-  font-family: PingFang SC;
-  font-weight: 500;
-  color: #000000;
-  font-size: 44rpx;
-  margin-bottom: 40rpx;
-}
-.function_title {
-  font-family: PingFang SC;
-  font-weight: 500;
-  color: #000000;
-  font-size: 36rpx;
-  text-align: left;
-  width: 93%;
-  margin-top: 50rpx;
-}
-
-.top_tip {
-  font-size: 28rpx;
-  font-family: PingFang SC;
-  font-weight: 400;
-  color: #888888;
-  margin-bottom: 28rpx;
-}
-
-.examples_container {
+.page-container {
   display: flex;
   flex-direction: column;
-  gap: 16rpx;
+  padding: 0 32rpx;
+}
+
+/* 状态栏占位 */
+.status-bar-placeholder {
   width: 100%;
-  align-items: center;
 }
 
-.example_item {
-  border: 3rpx solid #e5e5e5;
-  border-radius: 10rpx;
-  padding: 24rpx;
-  width: 90%;
-  background-color: #fff;
+/* ==================== 日期头区域 ==================== */
+.date-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-}
-
-.power {
-  margin-top: 30rpx;
-  border-radius: 5px;
-  background-color: white;
-  width: 93%;
-  padding-bottom: 1rpx;
-}
-
-.power_info {
-  display: flex;
-  padding: 30rpx 25rpx;
   align-items: center;
-  justify-content: space-between;
+  padding: 24rpx 0;
+  margin-bottom: 8rpx;
 }
 
-.power_info_more {
-  width: 30rpx;
-  height: 30rpx;
-  transform: rotate(90deg);
-}
-
-.power_info_less {
-  width: 30rpx;
-  height: 30rpx;
-  transform: rotate(270deg);
-}
-
-.power_info_text {
+.date-header-left {
   display: flex;
   flex-direction: column;
+  width: 60%;
 }
 
-.power_info_text_title {
-  margin-bottom: 10rpx;
-  font-weight: 400;
-  font-size: 32rpx;
+.lunar-date {
+  font-size: 36rpx;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
+.ganzhi-year {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.date-header-right {
   display: flex;
-  align-items: center;
-  font-family: 'PingFang SC';
-  color: #000;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 40%;
 }
 
-.power_info_text_tag {
-  margin-left: 20rpx;
-  background-color: #fbe0e0;
-  color: #e54545;
-  padding: 0 7px;
-  font-size: 14px;
-  vertical-align: middle;
-  border-radius: 3px;
+.gregorian-date {
+  font-size: 44rpx;
+  font-weight: 600;
+  color: var(--color-accent);
+  line-height: 1.3;
 }
 
-.power_info_text_tip {
-  color: rgba(0, 0, 0, 0.6);
-  font-size: 28rpx;
-  padding-right: 30rpx;
+.week-day {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
 }
 
-.power_item {
-  padding: 30rpx 25rpx;
+.date-header-line {
+  width: 60%;
+  height: 2rpx;
+  background: linear-gradient(to right, var(--color-accent), transparent);
+  margin-bottom: 32rpx;
+}
+
+/* ==================== 宜忌卡片 ==================== */
+.almanac-card {
+  background: var(--color-card);
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(61, 50, 41, 0.06);
+  padding: 24rpx;
+  margin-bottom: 32rpx;
+}
+
+.almanac-content {
   display: flex;
   justify-content: space-between;
 }
 
-.power_item_title {
+.yi-column,
+.ji-column {
+  width: 48%;
+}
+
+.column-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.column-title {
   font-size: 28rpx;
-  color: rgba(0, 0, 0, 0.9);
+  font-weight: 500;
+  margin-left: 8rpx;
 }
 
-.power_item_icon {
-  width: 30rpx;
-  height: 30rpx;
+.yi-column .column-title {
+  color: var(--color-secondary);
 }
 
-.line {
-  width: 95%;
-  margin: 0 auto;
-  height: 2rpx;
-  background-color: rgba(0, 0, 0, 0.1);
+.ji-column .column-title {
+  color: var(--color-danger);
 }
 
-.environment {
-  color: rgba(0, 0, 0, 0.4);
+.column-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.yi-item,
+.ji-item {
+  font-size: 28rpx;
+  line-height: 1.6;
+}
+
+.yi-item {
+  color: var(--color-text-primary);
+}
+
+.ji-item {
+  color: var(--color-text-primary);
+}
+
+.column-divider {
+  width: 1rpx;
+  background: var(--color-divider);
+  margin: 0 16rpx;
+}
+
+.chongsha-row {
+  display: flex;
+  align-items: center;
+  margin-top: 24rpx;
+  padding-top: 24rpx;
+  border-top: 1rpx solid var(--color-divider);
+}
+
+.chongsha-zodiac {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: var(--color-danger);
+  margin-right: 16rpx;
+}
+
+.chongsha-direction {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+}
+
+/* ==================== 吉神方位 ==================== */
+.jishen-area {
+  margin-bottom: 32rpx;
+}
+
+.area-title {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 16rpx;
+}
+
+.jishen-grid {
+  display: flex;
+  justify-content: space-between;
+  background: var(--color-card);
+  border-radius: 16rpx;
+  padding: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(61, 50, 41, 0.06);
+}
+
+.jishen-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 33%;
+}
+
+.jishen-label {
   font-size: 24rpx;
-  margin-top: 25%;
+  color: var(--color-text-secondary);
+  margin-top: 8rpx;
+}
+
+.jishen-value {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+  margin-top: 4rpx;
+}
+
+/* ==================== 五行穿衣 ==================== */
+.wuxing-area {
+  margin-bottom: 32rpx;
+}
+
+.clothes-scroll {
+  white-space: nowrap;
+  width: 100%;
+}
+
+.clothes-list {
+  display: flex;
+  gap: 16rpx;
+}
+
+.clothes-card {
+  display: inline-flex;
+  flex-direction: column;
+  width: 296rpx;
+  height: 200rpx;
+  border-radius: 8rpx;
+  overflow: hidden;
+  background: var(--color-card);
+  box-shadow: 0 4rpx 16rpx rgba(61, 50, 41, 0.06);
+  flex-shrink: 0;
+}
+
+.clothes-card.recommended {
+  border: 2rpx solid var(--color-accent);
+}
+
+.color-block {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 8rpx;
+}
+
+.recommend-tag {
+  font-size: 20rpx;
+  color: #FFFFFF;
+  background: var(--color-accent);
+  padding: 4rpx 12rpx;
+  border-radius: 4rpx;
+}
+
+.color-info {
+  background: var(--color-card);
+  padding: 16rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.color-name {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.color-desc {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+}
+
+/* ==================== Banner 广告 ==================== */
+.banner-area {
+  width: 100%;
+  height: 120rpx;
+  margin-bottom: 32rpx;
+}
+
+/* ==================== 底部标注 ==================== */
+.footer-note {
+  font-size: 24rpx;
+  color: var(--color-text-hint);
+  text-align: center;
+  padding: 32rpx 0 64rpx;
 }

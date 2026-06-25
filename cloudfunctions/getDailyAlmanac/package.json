@@ -1,0 +1,10 @@
+{
+  "name": "getDailyAlmanac",
+  "version": "1.0.0",
+  "description": "获取每日黄历数据",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.4.0",
+    "dayjs": "^1.11.0"
+  }
+}

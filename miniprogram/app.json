@@ -1,14 +1,48 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/example/index"
+    "pages/fortune/fortune",
+    "pages/compass/compass",
+    "pages/settings/settings"
   ],
   "window": {
-    "backgroundColor": "#F6F6F6",
+    "backgroundColor": "#FBF8F3",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "云开发 QuickStart",
+    "navigationBarBackgroundColor": "#FBF8F3",
+    "navigationBarTitleText": "奇门吉兆",
     "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#8C7B6B",
+    "selectedColor": "#C4825C",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/icons/home.png",
+        "selectedIconPath": "images/icons/home-active.png"
+      },
+      {
+        "pagePath": "pages/fortune/fortune",
+        "text": "运势",
+        "iconPath": "images/icons/cycle-arrow.png",
+        "selectedIconPath": "images/icons/cycle-arrow-active.png"
+      },
+      {
+        "pagePath": "pages/compass/compass",
+        "text": "罗盘",
+        "iconPath": "images/icons/compass-one.png",
+        "selectedIconPath": "images/icons/compass-one-active.png"
+      },
+      {
+        "pagePath": "pages/settings/settings",
+        "text": "我的",
+        "iconPath": "images/icons/user.png",
+        "selectedIconPath": "images/icons/user-active.png"
+      }
+    ]
   },
   "sitemapLocation": "sitemap.json",
   "style": "v2",

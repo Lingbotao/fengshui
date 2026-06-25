@@ -1,0 +1,90 @@
+<!--pages/settings/settings.wxml-->
+<view class="page-container">
+  <!--状态栏占位-->
+  <view class="status-bar-placeholder" style="height:{{statusBarHeight}}px"></view>
+
+  <!--返回按钮（仅内链时显示）-->
+  <view class="nav-header" wx:if="{{showBackBtn}}">
+    <view class="back-btn" bindtap="goBack">
+      <text>← 返回</text>
+    </view>
+    <text class="nav-title">个人设置</text>
+  </view>
+
+  <!--表单区-->
+  <view class="form-section">
+    <!--生肖显示（自动计算）-->
+    <view class="form-item">
+      <text class="form-label">生肖</text>
+      <view class="form-value">
+        <text class="zodiac-emoji">{{zodiacEmoji}}</text>
+        <text class="zodiac-text">属{{zodiac}}</text>
+      </view>
+    </view>
+
+    <view class="form-divider"></view>
+
+    <!--性别选择-->
+    <view class="form-item" bindtap="toggleGenderPicker">
+      <text class="form-label">性别</text>
+      <view class="form-value">
+        <text class="gender-text">{{gender}}</text>
+        <text class="arrow {{showGenderPopup ? 'arrow-up' : ''}}"> ></text>
+      </view>
+    </view>
+
+    <!--性别下拉列表-->
+    <view class="dropdown-list dropdown-gender" wx:if="{{showGenderPopup}}">
+      <view class="gender-btn {{gender === '男' ? 'active' : ''}}" bindtap="selectGender" data-gender="男">
+        <text>男</text>
+      </view>
+      <view class="gender-btn {{gender === '女' ? 'active' : ''}}" bindtap="selectGender" data-gender="女">
+        <text>女</text>
+      </view>
+    </view>
+
+    <view class="form-divider"></view>
+
+    <!--出生日期选择-->
+    <view class="form-item" bindtap="toggleDatePicker">
+      <text class="form-label">出生日期</text>
+      <view class="form-value">
+        <text class="date-text">{{birthYear}}年{{birthMonth}}月{{birthDay}}日</text>
+        <text class="arrow {{showDatePopup ? 'arrow-up' : ''}}"> ></text>
+      </view>
+    </view>
+
+    <!--日期三列选择器-->
+    <view class="date-picker" wx:if="{{showDatePopup}}">
+      <view class="date-col">
+        <view class="date-col-header">年</view>
+        <scroll-view scroll-y="{{true}}" class="date-scroll">
+          <view wx:for="{{yearList}}" wx:key="*this" class="date-item {{birthYear === item ? 'active' : ''}}" bindtap="selectYear" data-year="{{item}}">{{item}}</view>
+        </scroll-view>
+      </view>
+      <view class="date-col">
+        <view class="date-col-header">月</view>
+        <scroll-view scroll-y="{{true}}" class="date-scroll">
+          <view wx:for="{{monthList}}" wx:key="*this" class="date-item {{birthMonth === item ? 'active' : ''}}" bindtap="selectMonth" data-month="{{item}}">{{item}}</view>
+        </scroll-view>
+      </view>
+      <view class="date-col">
+        <view class="date-col-header">日</view>
+        <scroll-view scroll-y="{{true}}" class="date-scroll">
+          <view wx:for="{{dayList}}" wx:key="*this" class="date-item {{birthDay === item ? 'active' : ''}}" bindtap="selectDay" data-day="{{item}}">{{item}}</view>
+        </scroll-view>
+      </view>
+    </view>
+  </view>
+
+  <!--说明文字-->
+  <view class="form-tip">以上信息用于个性化运势和穿衣推荐</view>
+
+  <!--保存按钮-->
+  <view class="save-btn" bindtap="saveSettings">
+    <text>保存设置</text>
+  </view>
+
+  <!--仅供娱乐参考-->
+  <view class="footer-note">仅供娱乐参考</view>
+</view>

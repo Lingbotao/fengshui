@@ -1,29 +1,95 @@
-<!--index.wxml-->
-<view class="container">
-  <view class="title">快速了解云开发</view>
-  <view class="top_tip">免鉴权接口调用 免部署后台 高并发</view>
-  <view class="power" wx:key="title" wx:for="{{powerList}}" wx:for-item="power">
-    <view class="power_info" data-index="{{index}}" data-type="{{ power.type }}" bindtap="onClickPowerInfo">
-      <view class="power_info_text">
-        <view class="power_info_text_title">
-          {{power.title}}
-          <view class="power_info_text_tag" wx:if="{{power.tag}}">{{power.tag}}</view>
-        </view>
-        <view class="power_info_text_tip">{{power.tip}}</view>
-      </view>
-      <image wx:if="{{!power.showItem && power.item.length}}" class="power_info_more" src="../../images/arrow.svg"></image>
-      <image wx:if="{{power.showItem && power.item.length}}" class="power_info_less" src="../../images/arrow.svg"></image>
-      <image wx:if="{{!power.item.length}}" class="power_item_icon" src="../../images/arrow.svg"></image>
+<!--pages/index/index.wxml-->
+<view class="page-container">
+  <!--状态栏占位-->
+  <view class="status-bar-placeholder" style="height:{{statusBarHeight}}px"></view>
+
+  <!--日期头区域-->
+  <view class="date-header">
+    <view class="date-header-left">
+      <text class="lunar-date">{{lunarDate}}</text>
+      <text class="ganzhi-year">{{ganzhiYear}}</text>
     </view>
-    <view wx:if="{{power.showItem}}">
-      <view wx:key="title" wx:for="{{power.item}}">
-        <view class="line"></view>
-        <view class="power_item" bindtap="jumpPage" data-type="{{ item.type }}" data-page="{{item.page}}">
-          <view class="power_item_title">{{item.title}}</view>
-          <image class="power_item_icon" src="../../images/arrow.svg"></image>
+    <view class="date-header-right">
+      <text class="gregorian-date">{{gregorianDate}}</text>
+      <text class="week-day">{{weekDay}}</text>
+    </view>
+  </view>
+  <view class="date-header-line"></view>
+
+  <!--宜忌卡片-->
+  <view class="almanac-card">
+    <view class="almanac-content">
+      <view class="yi-column">
+        <view class="column-header">
+          <van-icon name="success" color="#6B8F71" size="32rpx"/>
+          <text class="column-title">宜</text>
         </view>
+        <view class="column-list">
+          <text wx:for="{{yiList}}" wx:key="index" class="yi-item">{{item}}</text>
+        </view>
+      </view>
+      <view class="column-divider"></view>
+      <view class="ji-column">
+        <view class="column-header">
+          <van-icon name="clear" color="#C46B5C" size="32rpx"/>
+          <text class="column-title">忌</text>
+        </view>
+        <view class="column-list">
+          <text wx:for="{{jiList}}" wx:key="index" class="ji-item">{{item}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="chongsha-row">
+      <text class="chongsha-zodiac">{{chongshaZodiac}}</text>
+      <text class="chongsha-direction">{{chongshaDirection}}</text>
+    </view>
+  </view>
+
+  <!--吉神方位-->
+  <view class="jishen-area">
+    <view class="area-title">今日吉神方位</view>
+    <view class="jishen-grid">
+      <view class="jishen-item">
+        <van-icon name="location" size="28rpx" color="#8C7B6B"/>
+        <text class="jishen-label">财神</text>
+        <text class="jishen-value">{{caishenDirection}}</text>
+      </view>
+      <view class="jishen-item">
+        <van-icon name="location" size="28rpx" color="#8C7B6B"/>
+        <text class="jishen-label">喜神</text>
+        <text class="jishen-value">{{xishenDirection}}</text>
+      </view>
+      <view class="jishen-item">
+        <van-icon name="location" size="28rpx" color="#8C7B6B"/>
+        <text class="jishen-label">贵神</text>
+        <text class="jishen-value">{{guishenDirection}}</text>
       </view>
     </view>
   </view>
-  <cloud-tip-modal showTipProps="{{showTip}}" title="{{title}}" content="{{content}}"></cloud-tip-modal>
+
+  <!--五行穿衣-->
+  <view class="wuxing-area">
+    <view class="area-title">今日五行穿衣</view>
+    <scroll-view class="clothes-scroll" scroll-x="{{true}}">
+      <view class="clothes-list">
+        <view wx:for="{{wuxingClothes}}" wx:key="index" class="clothes-card {{index === 0 ? 'recommended' : ''}}">
+          <view class="color-block" style="background-color: {{item.color}}">
+            <text wx:if="{{index === 0}}" class="recommend-tag">推荐</text>
+          </view>
+          <view class="color-info">
+            <text class="color-name">{{item.name}}</text>
+            <text class="color-desc">{{item.description}}</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!--Banner广���-->
+  <view class="banner-area">
+    <ad unit-id="" ad-type="banner" ad-theme="white"></ad>
+  </view>
+
+  <!--仅供娱乐参考-->
+  <view class="footer-note">仅供娱乐参考</view>
 </view>

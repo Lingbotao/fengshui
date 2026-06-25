@@ -1,0 +1,38 @@
+<!--pages/fortune/fortune.wxml-->
+<view class="page-container">
+  <!--状态栏占位-->
+  <view class="status-bar-placeholder" style="height:{{statusBarHeight}}px"></view>
+
+  <!--生肖切换引导-->
+  <view class="zodiac-switch" bindtap="goToSettings">
+    <text class="zodiac-icon">{{zodiacEmoji}}</text>
+    <text class="zodiac-text">属{{zodiac}}</text>
+    <text class="switch-hint">切换你的生肖 →</text>
+  </view>
+
+  <!--运势卡片-->
+  <view class="fortune-card">
+    <view class="fortune-title">☀️ 今日运势</view>
+    <view class="fortune-content">
+      <view class="fortune-item" wx:for="{{fortuneList}}" wx:key="dimension">
+        <text class="dimension-label">{{item.dimension}}：</text>
+        <text class="dimension-content">{{item.content}}</text>
+      </view>
+    </view>
+    <view class="fortune-decor"></view>
+  </view>
+
+  <!--分享好运按钮-->
+  <view class="share-btn">
+    <text class="share-btn-text">分享好运</text>
+    <text class="coming-tag">即将上线</text>
+  </view>
+
+  <!--Banner广告-->
+  <view class="banner-area">
+    <ad unit-id="" ad-type="banner" ad-theme="white"></ad>
+  </view>
+
+  <!--仅供娱乐参考-->
+  <view class="footer-note">仅供娱乐参考</view>
+</view>
