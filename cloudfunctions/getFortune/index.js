@@ -54,7 +54,7 @@ const fortuneTemplates = {
  */
 function getFortuneByZodiac(zodiac, gender, date) {
   const zodiacIdx = zodiacs.indexOf(zodiac);
-  const dayOfYear = date.dayOfYear();
+  const dayOfYear = date.date(); // 用日期作为索引
 
   // 基于生肖、性别、日期的随机种子
   const seed = (zodiacIdx * 100 + dayOfYear + (gender === '男' ? 1 : 2)) % 100;

@@ -39,9 +39,9 @@
         </view>
       </view>
     </view>
-    <view class="chongsha-row">
-      <text class="chongsha-zodiac">{{chongshaZodiac}}</text>
-      <text class="chongsha-direction">{{chongshaDirection}}</text>
+    <view class="chongsha-info">
+      <text class="chongsha-item">冲煞生肖：{{chongshaZodiac}}</text>
+      <text class="chongsha-item">冲煞方向：{{chongshaDirection}}</text>
     </view>
   </view>
 

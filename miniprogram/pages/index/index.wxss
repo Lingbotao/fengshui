@@ -139,24 +139,18 @@ page {
   margin: 0 16rpx;
 }
 
-.chongsha-row {
+.chongsha-info {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   margin-top: 24rpx;
   padding-top: 24rpx;
   border-top: 1rpx solid var(--color-divider);
 }
 
-.chongsha-zodiac {
-  font-size: 32rpx;
-  font-weight: 500;
-  color: var(--color-danger);
-  margin-right: 16rpx;
-}
-
-.chongsha-direction {
+.chongsha-item {
   font-size: 28rpx;
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
+  line-height: 1.8;
 }
 
 /* ==================== 吉神方位 ==================== */
