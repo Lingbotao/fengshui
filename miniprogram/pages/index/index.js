@@ -54,6 +54,12 @@ Page({
   loadDailyAlmanac: async function () {
     this.setData({ isLoading: true });
 
+    // 尝试从缓存加载
+    const cachedData = wx.getStorageSync('daily_almanac_cache');
+    if (cachedData) {
+      this.applyAlmanacData(cachedData);
+    }
+
     try {
       const dateStr = this.formatDate(new Date());
 
@@ -67,33 +73,46 @@ Page({
 
       if (res.result && res.result.data) {
         const data = res.result.data;
-        this.setData({
-          lunarDate: data.lunar,
-          ganzhiYear: data.ganzhi?.year,
-          gregorianDate: data.day,
-          weekDay: data.weekDay,
-          yiList: data.yi || [],
-          jiList: data.ji || [],
-          chongshaZodiac: data.chongsha?.zodiac || '',
-          chongshaDirection: data.chongsha?.direction || '',
-          caishenDirection: data.jiShenFangWei?.caishen || '正南',
-          xishenDirection: data.jiShenFangWei?.xishen || '东南',
-          guishenDirection: data.jiShenFangWei?.guishen || '西北',
-          wuxingClothes: data.wuXingClothes || [],
-          isLoading: false,
-        });
+        this.applyAlmanacData(data);
 
-        // 保存到 Store
-        store.setDailyAlmanac(data);
-        store.setWuxingClothes(data.wuXingClothes || []);
+        // 缓存数据
+        wx.setStorageSync('daily_almanac_cache', data);
       } else {
-        // 数据为空，使用模拟数据
-        this.setMockData();
+        // 数据为空，有缓存用缓存，没有用模拟
+        if (!cachedData) {
+          this.setMockData();
+        }
       }
     } catch (err) {
       console.error('[Index] 加载黄历数据失败:', err);
-      this.setMockData();
+      // 失败时用缓存，没有用模拟
+      if (!cachedData) {
+        this.setMockData();
+      }
     }
+  },
+
+  // 应用黄历数据到页面
+  applyAlmanacData: function (data) {
+    this.setData({
+      lunarDate: data.lunar,
+      ganzhiYear: data.ganzhi?.year,
+      gregorianDate: data.day,
+      weekDay: data.weekDay,
+      yiList: data.yi || [],
+      jiList: data.ji || [],
+      chongshaZodiac: data.chongsha?.zodiac || '',
+      chongshaDirection: data.chongsha?.direction || '',
+      caishenDirection: data.jiShenFangWei?.caishen || '正南',
+      xishenDirection: data.jiShenFangWei?.xishen || '东南',
+      guishenDirection: data.jiShenFangWei?.guishen || '西北',
+      wuxingClothes: data.wuXingClothes || [],
+      isLoading: false,
+    });
+
+    // 保存到 Store
+    store.setDailyAlmanac(data);
+    store.setWuxingClothes(data.wuXingClothes || []);
   },
 
   // 设置模拟数据（开发调试用）

@@ -7,7 +7,7 @@
   ],
   "window": {
     "backgroundColor": "#FBF8F3",
-    "backgroundTextStyle": "light",
+    "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#FBF8F3",
     "navigationBarTitleText": "奇门吉兆",
     "navigationBarTextStyle": "black"
