@@ -1,11 +1,10 @@
 // app.js
 const { createStoreBindings } = require('mobx-miniprogram-bindings');
 const { store } = require('./store/userStore');
+const { env } = require('./env');
 
 App({
   globalData: {
-    // 云开发环境 ID，需在微信开发者工具中获取
-    env: '',
     // 系统信息
     systemInfo: null,
     statusBarHeight: 0,
@@ -17,34 +16,33 @@ App({
       console.error('请使用 2.2.3 或以上的基础库以使用云能力');
     } else {
       wx.cloud.init({
-        env: this.globalData.env,
+        env: env,
         traceUser: true,
       });
     }
 
     // 获取系统信息
     this.initSystemInfo();
+
+    // 绑定 MobX Store
+    this.storeBindings = createStoreBindings(this, store, [
+      'zodiac',
+      'gender',
+      'birthYear',
+      'birthMonth',
+      'birthDay',
+    ]);
   },
 
   initSystemInfo: function () {
     const systemInfo = wx.getSystemInfoSync();
-    const statusBarHeight = systemInfo.statusBarHeight || 20;
+    const statusBarHeight = systemInfo.statusBarHeight;
+
     this.globalData.systemInfo = systemInfo;
-    this.globalData.statusBarHeight = statusBarHeight;
+    this.globalData.statusBarHeight = statusBarHeight || 20;
   },
 
-  onShow: function () {
-    // 每次小程序显示时，检查本地缓存的用户设置
-    this.checkUserSettings();
-  },
-
-  checkUserSettings: function () {
-    const userSettings = wx.getStorageSync('user_settings');
-    if (userSettings) {
-      // 更新 Store 中的用户设置
-      if (store) {
-        store.updateUserSettings(userSettings);
-      }
-    }
+  onUnload: function () {
+    this.storeBindings && this.storeBindings.destroyStoreBindings();
   },
 });
