@@ -17,3 +17,7 @@ project.private.config.json
 # 日志
 *.log
 npm-debug.log*
+
+# 云开发环境配置（敏感信息，不提交）
+miniprogram/env.js
+miniprogram/env.example.js
