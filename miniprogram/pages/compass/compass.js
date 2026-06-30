@@ -57,6 +57,7 @@ Page({
   // 开始罗盘监听
   startCompassListener: function () {
     const that = this;
+    let lastDrawTime = 0;
 
     wx.onCompassChange(function (res) {
       const azimuth = res.direction;
@@ -67,7 +68,13 @@ Page({
           lastAzimuth: azimuth,
         });
         that.updateDirection(azimuth);
-        that.drawCompass(azimuth);
+
+        // 节流：每16ms最多绘制一次
+        const now = Date.now();
+        if (now - lastDrawTime > 16) {
+          lastDrawTime = now;
+          that.drawCompass(azimuth);
+        }
       }
     });
   },

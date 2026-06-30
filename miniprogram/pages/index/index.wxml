@@ -41,7 +41,7 @@
     </view>
     <view class="chongsha-info">
       <text class="chongsha-item">冲煞生肖：{{chongshaZodiac}}</text>
-      <text class="chongsha-item">冲煞方向：{{chongshaDirection}}</text>
+      <text class="chongsha-item">冲煞方向：煞{{chongshaDirection}}</text>
     </view>
   </view>
 
