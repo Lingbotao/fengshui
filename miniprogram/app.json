@@ -26,13 +26,13 @@
       },
       {
         "pagePath": "pages/fortune/fortune",
-        "text": "运势",
+        "text": "势头",
         "iconPath": "images/icons/cycle-arrow.png",
         "selectedIconPath": "images/icons/cycle-arrow-active.png"
       },
       {
         "pagePath": "pages/compass/compass",
-        "text": "罗盘",
+        "text": "指南针",
         "iconPath": "images/icons/compass-one.png",
         "selectedIconPath": "images/icons/compass-one-active.png"
       },

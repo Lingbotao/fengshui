@@ -12,7 +12,7 @@
 
   <!--运势卡片-->
   <view class="fortune-card">
-    <view class="fortune-title">☀️ 今日运势</view>
+    <view class="fortune-title">☀️ 今日势头</view>
     <view class="fortune-content">
       <view class="fortune-item" wx:for="{{fortuneList}}" wx:key="dimension">
         <text class="dimension-label">{{item.dimension}}：</text>
