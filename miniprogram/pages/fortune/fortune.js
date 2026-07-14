@@ -1,5 +1,7 @@
 // pages/fortune/fortune.js
 const { store } = require('../../store/userStore');
+const { isFeatureUnlocked } = require('../../utils/featureUnlocks.js');
+const { isAuditSwitchOn } = require('../../utils/featureFlags.js');
 
 Page({
   data: {
@@ -11,14 +13,31 @@ Page({
   },
 
   onLoad: function () {
+    // 拦截：未到解锁时间直接跳回首页（防止其他入口绕过 tabBar）
+    if (!isFeatureUnlocked('fortuneTab')) {
+      wx.showToast({ title: '功能筹备中', icon: 'none' });
+      setTimeout(() => {
+        wx.switchTab({ url: '/pages/index/index' });
+      }, 1200);
+      return;
+    }
     const app = getApp();
     this.setData({
       statusBarHeight: app.globalData.statusBarHeight || 20,
     });
+
+    // 动态设置导航栏标题（审核时显示中性名）
+    wx.setNavigationBarTitle({
+      title: isAuditSwitchOn() ? '运势速览' : '今日速递',
+    });
   },
 
   onShow: function () {
-    // 每次显示时刷新数据
+    // 自定义 tabBar：设置当前选中
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setSelected('/pages/fortune/fortune');
+      this.getTabBar().refreshLockStatus && this.getTabBar().refreshLockStatus();
+    }
     this.loadFortune();
   },
 
@@ -66,7 +85,7 @@ Page({
         this.setMockData();
       }
     } catch (err) {
-      console.error('加载运势数据失败', err);
+      console.warn('加载运势数据失败', err);
       this.setMockData();
     }
   },
@@ -92,6 +111,13 @@ Page({
   goToSettings: function () {
     wx.switchTab({
       url: '/pages/settings/settings?anchor=zodiac',
+    });
+  },
+
+  // 跳转到八字排盘页
+  goToBazi: function () {
+    wx.navigateTo({
+      url: '/pages/bazi/bazi',
     });
   },
 });

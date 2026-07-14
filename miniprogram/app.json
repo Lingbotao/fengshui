@@ -3,6 +3,7 @@
     "pages/index/index",
     "pages/fortune/fortune",
     "pages/compass/compass",
+    "pages/bazi/bazi",
     "pages/settings/settings"
   ],
   "window": {
@@ -17,6 +18,7 @@
     "selectedColor": "#C4825C",
     "backgroundColor": "#FFFFFF",
     "borderStyle": "white",
+    "custom": true,
     "list": [
       {
         "pagePath": "pages/index/index",
@@ -32,7 +34,7 @@
       },
       {
         "pagePath": "pages/compass/compass",
-        "text": "指南针",
+        "text": "罗盘",
         "iconPath": "images/icons/compass-one.png",
         "selectedIconPath": "images/icons/compass-one-active.png"
       },

@@ -1,5 +1,5 @@
 /**
- * 吉星宝典 · MobX Store
+ * 日知通 · MobX Store
  * 用户设置 + 共享状态管理
  */
 const { makeAutoObservable } = require('mobx-miniprogram');

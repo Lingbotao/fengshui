@@ -50,6 +50,11 @@ Page({
   },
 
   onShow: function () {
+    // 自定义 tabBar：设置当前选中
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setSelected('/pages/settings/settings');
+      this.getTabBar().refreshLockStatus && this.getTabBar().refreshLockStatus();
+    }
     this.loadFromStore();
   },
 

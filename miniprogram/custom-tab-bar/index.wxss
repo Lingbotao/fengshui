@@ -1,0 +1,51 @@
+/**
+ * 自定义底部 TabBar
+ * 锁定的 Tab 会从 list 中过滤掉，剩余 Tab 等分宽度
+ */
+
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 110rpx;
+  background: #FFFFFF;
+  display: flex;
+  border-top: 1rpx solid #F0EBE3;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 9999;
+  box-shadow: 0 -2rpx 8rpx rgba(61, 50, 41, 0.04);
+}
+
+.tab-bar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12rpx 0;
+  position: relative;
+}
+
+.tab-bar-icon-wrap {
+  position: relative;
+  width: 48rpx;
+  height: 48rpx;
+  margin-bottom: 4rpx;
+}
+
+.tab-bar-icon {
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.tab-bar-text {
+  font-size: 22rpx;
+  color: #8C7B6B;
+  transition: color 0.2s;
+}
+
+.tab-bar-active .tab-bar-text {
+  color: #C4825C;
+  font-weight: 500;
+}

@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "build:bazi": "tsc --ignoreConfig --target es2020 --module commonjs --outDir miniprogram/utils/bazi-js --rootDir miniprogram/utils/bazi --esModuleInterop --skipLibCheck miniprogram/utils/bazi/*.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "@vant/weapp": "^1.11.7",
+    "mobx-miniprogram": "^6.12.3",
+    "mobx-miniprogram-bindings": "^6.0.0"
+  }
+}

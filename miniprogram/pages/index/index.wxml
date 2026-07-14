@@ -39,14 +39,15 @@
         </view>
       </view>
     </view>
-    <view class="chongsha-info">
+    <!--冲煞信息（受云端开关控制）-->
+    <view wx:if="{{showChongsha}}" class="chongsha-info">
       <text class="chongsha-item">冲煞生肖：{{chongshaZodiac}}</text>
       <text class="chongsha-item">冲煞方向：煞{{chongshaDirection}}</text>
     </view>
   </view>
 
-  <!--吉神方位-->
-  <view class="jishen-area">
+  <!--吉神方位（受云端开关控制）-->
+  <view wx:if="{{showJishenFangWei}}" class="jishen-area">
     <view class="area-title">今日吉神方位</view>
     <view class="jishen-grid">
       <view class="jishen-item">
@@ -67,8 +68,8 @@
     </view>
   </view>
 
-  <!--五行穿衣-->
-  <view class="wuxing-area">
+  <!--五行穿衣（受云端开关控制）-->
+  <view wx:if="{{showWuxingClothes}}" class="wuxing-area">
     <view class="area-title">今日五行穿衣</view>
     <scroll-view class="clothes-scroll" scroll-x="{{true}}">
       <view class="clothes-list">

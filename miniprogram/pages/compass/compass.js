@@ -31,6 +31,14 @@ Page({
     }, 500);
   },
 
+  onShow: function () {
+    // 自定义 tabBar：设置当前选中
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setSelected('/pages/compass/compass');
+      this.getTabBar().refreshLockStatus && this.getTabBar().refreshLockStatus();
+    }
+  },
+
   onUnload: function () {
     this.stopCompass();
   },
