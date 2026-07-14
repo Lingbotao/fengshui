@@ -117,6 +117,48 @@ page {
   border-radius: 4rpx;
 }
 
+/* ==================== 八字入口 ==================== */
+.bazi-entry {
+  display: flex;
+  align-items: center;
+  height: 120rpx;
+  padding: 0 32rpx;
+  background: var(--color-card);
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(61, 50, 41, 0.06);
+  margin-bottom: 32rpx;
+  border-left: 8rpx solid var(--color-primary);
+}
+
+.bazi-icon {
+  font-size: 48rpx;
+  margin-right: 24rpx;
+}
+
+.bazi-text-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.bazi-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 6rpx;
+}
+
+.bazi-desc {
+  font-size: 22rpx;
+  color: var(--color-text-hint);
+}
+
+.bazi-arrow {
+  font-size: 40rpx;
+  color: var(--color-text-hint);
+  font-weight: 300;
+}
+
 /* ==================== Banner 广告 ==================== */
 .banner-area {
   width: 100%;

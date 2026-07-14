@@ -28,6 +28,16 @@
     <text class="coming-tag">即将上线</text>
   </view>
 
+  <!--八字排盘入口（保持伪装文案，避开敏感词）-->
+  <view class="bazi-entry" bindtap="goToBazi">
+    <text class="bazi-icon">🪷</text>
+    <view class="bazi-text-wrap">
+      <text class="bazi-title">解锁你的个人特质报告</text>
+      <text class="bazi-desc">多维能量画像 · 基于出生时间</text>
+    </view>
+    <text class="bazi-arrow">›</text>
+  </view>
+
   <!--Banner广告-->
   <view class="banner-area">
     <ad unit-id="" ad-type="banner" ad-theme="white"></ad>

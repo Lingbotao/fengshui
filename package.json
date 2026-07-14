@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build:bazi": "tsc --ignoreConfig --target es2020 --module commonjs --outDir miniprogram/utils/bazi-js --rootDir miniprogram/utils/bazi --esModuleInterop --skipLibCheck miniprogram/utils/bazi/*.ts"
+    "build:bazi": "tsc -p tsconfig.json"
   },
   "devDependencies": {
     "@types/node": "^26.1.0",

@@ -1,0 +1,9 @@
+{
+  "name": "saveBaziRecord",
+  "version": "1.0.0",
+  "description": "保存八字排盘记录",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.4.0"
+  }
+}

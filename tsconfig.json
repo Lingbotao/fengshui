@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "outDir": "./miniprogram/utils/bazi-js",
+    "rootDir": "./miniprogram/utils/bazi"
+  },
+  "include": ["./miniprogram/utils/bazi/**/*.ts"]
+}

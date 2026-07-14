@@ -1,0 +1,247 @@
+<!--pages/bazi/bazi.wxml-->
+<view class="page-container">
+  <!--状态栏占位-->
+  <view class="status-bar-placeholder" style="height:{{statusBarHeight}}px"></view>
+
+  <!--占位页：审核期间展示（云端开关关闭时）-->
+  <view wx:if="{{!showRealFeature}}" class="placeholder-page">
+    <view class="placeholder-icon">🪷</view>
+    <view class="placeholder-title">个人特质报告</view>
+    <view class="placeholder-desc">
+      正在准备更多维度的能量画像
+      <text class="placeholder-desc-strong">· 即将上线</text>
+    </view>
+    <view class="placeholder-back" bindtap="goBack">返回上一页</view>
+  </view>
+
+  <!--真实功能：开关开启时展示-->
+  <block wx:if="{{showRealFeature}}">
+  <!--页面标题-->
+  <view class="page-header">
+    <text class="page-title">生辰八字</text>
+    <text class="page-subtitle">排盘 · 五行 · 大运</text>
+    <view class="history-btn" bindtap="onShowHistory">
+      <text class="history-btn-text">📜 历史</text>
+    </view>
+  </view>
+
+  <!--生辰输入区-->
+  <view class="card birth-card">
+    <view class="card-title">
+      <text class="title-icon">📅</text>
+      <text>出生时辰</text>
+    </view>
+
+    <view class="birth-form">
+      <!-- 年月日 -->
+      <view class="form-row">
+        <picker mode="multiSelector" range="{{dateRange}}" value="{{dateIndex}}" bindchange="onDateChange" bindcolumnchange="onDateColumnChange">
+          <view class="picker-display">
+            <text class="picker-label">公历</text>
+            <text class="picker-value">{{birthDateStr}}</text>
+            <text class="picker-arrow">▾</text>
+          </view>
+        </picker>
+      </view>
+
+      <!-- 时辰 -->
+      <view class="form-row">
+        <picker mode="selector" range="{{hourOptions}}" value="{{hourIndex}}" bindchange="onHourChange">
+          <view class="picker-display">
+            <text class="picker-label">时辰</text>
+            <text class="picker-value">{{birthHourStr}}</text>
+            <text class="picker-arrow">▾</text>
+          </view>
+        </picker>
+      </view>
+
+      <!-- 性别 -->
+      <view class="form-row">
+        <view class="gender-row">
+          <text class="picker-label">性别</text>
+          <view class="gender-buttons">
+            <view class="gender-btn {{gender === '男' ? 'gender-btn-active' : ''}}" bindtap="onGenderChange" data-value="男">男</view>
+            <view class="gender-btn {{gender === '女' ? 'gender-btn-active' : ''}}" bindtap="onGenderChange" data-value="女">女</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 排盘按钮 -->
+    <view class="pai-btn" bindtap="onPaiPan">
+      <text class="pai-btn-text">开始排盘</text>
+    </view>
+
+    <!-- 排盘选项：保存按钮 -->
+    <view wx:if="{{result && result._id}}" class="saved-tip">
+      <text>✓ 已保存到云端 · {{result.savedAtText}}</text>
+    </view>
+  </view>
+
+  <!-- 排盘结果 -->
+  <block wx:if="{{result}}">
+    <!-- 四柱 -->
+    <view class="card pillars-card">
+      <view class="card-title">
+        <text class="title-icon">🪷</text>
+        <text>四柱八字</text>
+      </view>
+
+      <view class="pillars-row">
+        <view class="pillar-col">
+          <text class="pillar-label">年柱</text>
+          <view class="pillar-cell">
+            <text class="pillar-gan">{{result.pillars.year.gan}}</text>
+            <text class="pillar-zhi">{{result.pillars.year.zhi}}</text>
+          </view>
+          <text class="pillar-shishen">{{result.pillarShiShenText.year}}</text>
+          <text class="pillar-canggan">{{result.pillars.year.cangGanText}}</text>
+        </view>
+
+        <view class="pillar-col">
+          <text class="pillar-label">月柱</text>
+          <view class="pillar-cell">
+            <text class="pillar-gan">{{result.pillars.month.gan}}</text>
+            <text class="pillar-zhi">{{result.pillars.month.zhi}}</text>
+          </view>
+          <text class="pillar-shishen">{{result.pillarShiShenText.month}}</text>
+          <text class="pillar-canggan">{{result.pillars.month.cangGanText}}</text>
+        </view>
+
+        <view class="pillar-col">
+          <text class="pillar-label">日柱</text>
+          <view class="pillar-cell pillar-cell-main">
+            <text class="pillar-gan">{{result.pillars.day.gan}}</text>
+            <text class="pillar-zhi">{{result.pillars.day.zhi}}</text>
+          </view>
+          <text class="pillar-shishen">{{result.pillarShiShenText.day}}</text>
+          <text class="pillar-canggan">{{result.pillars.day.cangGanText}}</text>
+        </view>
+
+        <view class="pillar-col">
+          <text class="pillar-label">时柱</text>
+          <view class="pillar-cell">
+            <text class="pillar-gan">{{result.pillars.hour.gan}}</text>
+            <text class="pillar-zhi">{{result.pillars.hour.zhi}}</text>
+          </view>
+          <text class="pillar-shishen">{{result.pillarShiShenText.hour}}</text>
+          <text class="pillar-canggan">{{result.pillars.hour.cangGanText}}</text>
+        </view>
+      </view>
+
+      <view class="pillar-hint">
+        <text>日主：{{result.dayMaster}}</text>
+      </view>
+    </view>
+
+    <!-- 五行分布 -->
+    <view class="card wuxing-card">
+      <view class="card-title">
+        <text class="title-icon">☯️</text>
+        <text>五行分布</text>
+      </view>
+
+      <view class="wuxing-bars">
+        <view class="wuxing-row" wx:for="{{result.wuXing.list}}" wx:key="name">
+          <view class="wuxing-name wx-wx-{{item.key}}">{{item.name}}</view>
+          <view class="wuxing-bar-track">
+            <view class="wuxing-bar-fill wx-bar-{{item.key}}" style="width: {{item.percent}}%"></view>
+          </view>
+          <view class="wuxing-count">{{item.count}}</view>
+        </view>
+      </view>
+
+      <view class="wuxing-summary">
+        <text>喜用神：</text>
+        <text class="wuxing-xiyong">{{result.wuXing.xiYong}}</text>
+      </view>
+    </view>
+
+    <!-- 大运流年 -->
+    <view class="card dayun-card">
+      <view class="card-title">
+        <text class="title-icon">📜</text>
+        <text>大运流年</text>
+      </view>
+
+      <view class="dayun-direction">
+        <text>大运方向：</text>
+        <text class="dayun-dir-text">{{result.daYun.directionText}}</text>
+        <text class="dayun-qi">（每 {{result.daYun.stepYears}} 年一步）</text>
+      </view>
+
+      <scroll-view scroll-x="true" class="dayun-scroll">
+        <view class="dayun-list">
+          <view class="dayun-item {{result.daYun.current && item.startAge === result.daYun.current.startAge ? 'dayun-item-active' : ''}}" wx:for="{{result.daYun.list}}" wx:key="startAge" bindtap="onDayunTap" data-index="{{index}}">
+            <text class="dayun-age">{{item.startAge}}岁起</text>
+            <view class="dayun-pillar">
+              <text class="dayun-gan">{{item.gan}}</text>
+              <text class="dayun-zhi">{{item.zhi}}</text>
+            </view>
+            <text class="dayun-year">{{item.startYear}}-{{item.endYear}}</text>
+          </view>
+        </view>
+      </scroll-view>
+
+      <view wx:if="{{result.daYun.current}}" class="dayun-current">
+        <text class="current-label">当前大运</text>
+        <view class="current-detail">
+          <text class="current-gan">{{result.daYun.current.gan}}</text>
+          <text class="current-zhi">{{result.daYun.current.zhi}}</text>
+          <text class="current-age">{{result.daYun.current.startAge}}-{{result.daYun.current.endAge}}岁</text>
+        </view>
+        <text class="current-desc">{{result.daYun.current.ganZhi}}大运，{{result.daYun.current.description}}</text>
+      </view>
+    </view>
+
+    <!-- 仅供娱乐参考 -->
+    <view class="footer-note">仅供娱乐参考 · 基于传统命理理论</view>
+  </block>
+
+  <!-- 占位：未排盘时 -->
+  <view wx:else class="empty-state">
+    <text class="empty-icon">🪷</text>
+    <text class="empty-text">填写生辰后点击「开始排盘」</text>
+    <text class="empty-tip">排盘结果仅供娱乐参考</text>
+  </view>
+
+  <!-- 历史记录弹层 -->
+  <view wx:if="{{showHistory}}" class="history-mask" bindtap="onCloseHistory">
+    <view class="history-panel" catchtap="">
+      <view class="history-header">
+        <text class="history-title">排盘历史</text>
+        <text class="history-close" bindtap="onCloseHistory">×</text>
+      </view>
+
+      <view wx:if="{{historyList.length === 0 && !historyLoading}}" class="history-empty">
+        <text>暂无历史记录</text>
+      </view>
+
+      <view wx:if="{{historyLoading}}" class="history-loading">
+        <text>加载中...</text>
+      </view>
+
+      <scroll-view scroll-y="true" class="history-scroll">
+        <view wx:for="{{historyList}}" wx:key="_id" class="history-item">
+          <view class="history-info" bindtap="onHistoryItemTap" data-index="{{index}}">
+            <view class="history-birth">
+              <text class="history-date">{{item.birthYear}}-{{item.birthMonth}}-{{item.birthDay}} {{item.birthHour}}时</text>
+              <text class="history-gender">{{item.gender}}</text>
+            </view>
+            <view class="history-pillars">
+              <text>{{item.pillars.year.gan}}{{item.pillars.year.zhi}}</text>
+              <text> {{item.pillars.month.gan}}{{item.pillars.month.zhi}}</text>
+              <text class="history-pillars-main"> {{item.pillars.day.gan}}{{item.pillars.day.zhi}}</text>
+              <text> {{item.pillars.hour.gan}}{{item.pillars.hour.zhi}}</text>
+            </view>
+            <view class="history-time">
+              <text>{{item.timeText}}</text>
+            </view>
+          </view>
+          <view class="history-delete" catchtap="onHistoryDelete" data-id="{{item._id}}" data-index="{{index}}">删除</view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+  </block>
+</view>
