@@ -1,0 +1,891 @@
+/**
+ * 择日参考页样式
+ * 新中式 · 与八字页统一风格
+ */
+
+/* ==================== 占位页（审核期间展示） ==================== */
+.placeholder-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 64rpx 48rpx;
+  text-align: center;
+}
+
+.placeholder-icon {
+  font-size: 120rpx;
+  margin-bottom: 48rpx;
+  opacity: 0.7;
+}
+
+.placeholder-title {
+  font-size: 44rpx;
+  font-weight: 500;
+  color: var(--color-text-primary, #3D3229);
+  margin-bottom: 24rpx;
+  letter-spacing: 2rpx;
+}
+
+.placeholder-desc {
+  font-size: 28rpx;
+  color: var(--color-text-hint, #8C7B6B);
+  line-height: 1.6;
+  margin-bottom: 80rpx;
+}
+
+.placeholder-desc-strong {
+  color: var(--color-primary, #C4825C);
+  font-weight: 500;
+}
+
+.placeholder-back {
+  margin-top: 24rpx;
+  padding: 16rpx 48rpx;
+  font-size: 28rpx;
+  color: var(--color-text-hint, #8C7B6B);
+  border: 1rpx solid #E8E0D5;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+page {
+  background: var(--color-bg);
+  padding-bottom: 120rpx;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 32rpx;
+}
+
+.status-bar-placeholder {
+  width: 100%;
+}
+
+/* ==================== 页面标题 ==================== */
+.page-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32rpx 0 24rpx;
+}
+
+.page-title {
+  font-size: 44rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 8rpx;
+  letter-spacing: 2rpx;
+}
+
+.page-subtitle {
+  font-size: 24rpx;
+  color: var(--color-text-hint);
+  letter-spacing: 4rpx;
+}
+
+/* ==================== 事项选择器 ==================== */
+.matter-section {
+  margin: 16rpx 0 24rpx;
+}
+
+.section-label {
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 16rpx;
+}
+
+.label-dot {
+  color: var(--color-primary);
+  margin-right: 8rpx;
+  font-size: 36rpx;
+  line-height: 1;
+}
+
+.matter-scroll {
+  white-space: nowrap;
+  margin: 0 -32rpx;
+  padding: 0 32rpx;
+}
+
+.matter-list {
+  display: inline-flex;
+  gap: 12rpx;
+  padding: 4rpx 0;
+}
+
+.matter-chip {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: 14rpx 24rpx;
+  background: var(--color-card);
+  border: 2rpx solid var(--color-divider);
+  border-radius: 999rpx;
+  transition: all 0.2s ease;
+}
+
+.matter-chip-active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 4rpx 12rpx rgba(196, 130, 92, 0.25);
+}
+
+.matter-chip-icon {
+  font-size: 28rpx;
+  margin-right: 6rpx;
+}
+
+.matter-chip-text {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.matter-chip-active .matter-chip-text {
+  color: #FFFFFF;
+}
+
+/* ==================== 日历卡片 ==================== */
+.calendar-card {
+  background: var(--color-card);
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(61, 50, 41, 0.06);
+  padding: 24rpx;
+  margin-bottom: 24rpx;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8rpx 0 24rpx;
+}
+
+.month-nav {
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+  border-radius: 999rpx;
+}
+
+.month-nav-arrow {
+  font-size: 40rpx;
+  color: var(--color-text-secondary);
+  line-height: 1;
+}
+
+.month-title-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.month-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: 2rpx;
+}
+
+.month-subtitle {
+  font-size: 20rpx;
+  color: var(--color-text-hint);
+  margin-top: 4rpx;
+  letter-spacing: 2rpx;
+}
+
+/* ==================== 星期行 ==================== */
+.weekday-row {
+  display: flex;
+  border-bottom: 1rpx solid var(--color-divider);
+  padding-bottom: 12rpx;
+  margin-bottom: 8rpx;
+}
+
+.weekday-cell {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.weekday-text {
+  font-size: 22rpx;
+  color: var(--color-text-hint);
+}
+
+.weekday-text.weekend {
+  color: var(--color-primary);
+}
+
+/* ==================== 日期格子 ==================== */
+.day-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.day-cell {
+  width: calc(100% / 7);
+  height: 100rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rpx 0;
+  position: relative;
+}
+
+.day-cell-empty {
+  visibility: hidden;
+}
+
+.day-cell-selected {
+  background: var(--color-primary-light);
+  border-radius: 12rpx;
+}
+
+.day-num-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 2rpx;
+}
+
+.day-num {
+  font-size: 26rpx;
+  color: var(--color-text-primary);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.day-num-today {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.day-cell-today::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36rpx;
+  height: 4rpx;
+  background: var(--color-primary);
+  border-radius: 2rpx;
+}
+
+.festival-dot {
+  position: absolute;
+  top: -2rpx;
+  right: -8rpx;
+  width: 8rpx;
+  height: 8rpx;
+  background: var(--color-accent);
+  border-radius: 50%;
+}
+
+.day-jianchu {
+  font-size: 18rpx;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 1rpx;
+}
+
+/* 建除吉凶等级配色（中文类名会被部分 WXSS 编译器拒绝，改为拼音别名） */
+.day-level-daji {
+  color: #C46B5C;
+}
+.day-level-ji {
+  color: #D4A843;
+}
+.day-level-zhong {
+  color: var(--color-text-secondary);
+}
+.day-level-xiong {
+  color: #5B7B9A;
+}
+.day-level-daxiong {
+  color: #999999;
+}
+
+.day-dao {
+  font-size: 16rpx;
+  opacity: 0.7;
+  line-height: 1.2;
+}
+
+.day-dao-huangdao {
+  color: #D4A843;
+}
+.day-dao-heidao {
+  color: var(--color-text-hint);
+}
+
+.day-good-mark {
+  position: absolute;
+  top: 4rpx;
+  right: 8rpx;
+  font-size: 16rpx;
+  color: #FFFFFF;
+  background: #C46B5C;
+  padding: 0 6rpx;
+  border-radius: 4rpx;
+  font-weight: 500;
+}
+
+/* ==================== 图例 ==================== */
+.legend-row {
+  display: flex;
+  justify-content: center;
+  gap: 32rpx;
+  padding-top: 16rpx;
+  margin-top: 8rpx;
+  border-top: 1rpx solid var(--color-divider);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.legend-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+}
+
+.legend-dot-jiri {
+  background: #C46B5C;
+}
+.legend-dot-huangdao {
+  background: #D4A843;
+}
+.legend-dot-heidao {
+  background: var(--color-text-hint);
+}
+.legend-dot-today {
+  background: var(--color-primary);
+}
+
+.legend-text {
+  font-size: 20rpx;
+  color: var(--color-text-hint);
+}
+
+/* ==================== 操作按钮 ==================== */
+.action-row {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.action-btn {
+  flex: 1;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999rpx;
+}
+
+.action-btn-secondary {
+  background: var(--color-card);
+  border: 2rpx solid var(--color-divider);
+}
+
+.action-btn-primary {
+  background: var(--color-primary);
+  box-shadow: 0 4rpx 12rpx rgba(196, 130, 92, 0.25);
+}
+
+.action-btn-text {
+  font-size: 28rpx;
+  font-weight: 500;
+  letter-spacing: 2rpx;
+}
+
+.action-btn-secondary .action-btn-text {
+  color: var(--color-text-secondary);
+}
+
+.action-btn-primary .action-btn-text {
+  color: #FFFFFF;
+}
+
+/* ==================== 当日详情卡片 ==================== */
+.detail-card {
+  background: var(--color-card);
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(61, 50, 41, 0.06);
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 24rpx;
+  border-bottom: 1rpx solid var(--color-divider);
+  margin-bottom: 24rpx;
+}
+
+.detail-date-block {
+  display: flex;
+  align-items: baseline;
+  gap: 16rpx;
+}
+
+.detail-date-day {
+  font-size: 56rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.detail-date-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.detail-date-month {
+  font-size: 22rpx;
+  color: var(--color-text-hint);
+}
+
+.detail-date-gz {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.detail-jianchu-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.detail-jianchu {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.detail-level-tag {
+  font-size: 18rpx;
+  padding: 2rpx 12rpx;
+  border-radius: 4rpx;
+  font-weight: 500;
+}
+
+.detail-level-daji {
+  background: rgba(196, 107, 92, 0.12);
+  color: #C46B5C;
+}
+.detail-level-ji {
+  background: rgba(212, 168, 67, 0.12);
+  color: #D4A843;
+}
+.detail-level-zhong {
+  background: rgba(140, 123, 107, 0.12);
+  color: var(--color-text-secondary);
+}
+.detail-level-xiong {
+  background: rgba(91, 123, 154, 0.12);
+  color: #5B7B9A;
+}
+.detail-level-daxiong {
+  background: rgba(153, 153, 153, 0.12);
+  color: #999999;
+}
+
+.detail-dao-tag {
+  font-size: 18rpx;
+  font-weight: 500;
+}
+
+.detail-dao-huangdao {
+  color: #D4A843;
+}
+.detail-dao-heidao {
+  color: var(--color-text-hint);
+}
+
+.detail-desc {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  margin-bottom: 24rpx;
+}
+
+.detail-yiji {
+  display: flex;
+  gap: 24rpx;
+}
+
+.yiji-col {
+  flex: 1;
+  background: var(--color-bg);
+  border-radius: 12rpx;
+  padding: 16rpx;
+}
+
+.yiji-title {
+  display: block;
+  font-size: 22rpx;
+  font-weight: 500;
+  margin-bottom: 12rpx;
+  letter-spacing: 2rpx;
+}
+
+.yiji-yi .yiji-title {
+  color: #6B8F71;
+}
+
+.yiji-ji .yiji-title {
+  color: #C46B5C;
+}
+
+.yiji-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.yiji-tag {
+  font-size: 22rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+}
+
+.yiji-tag-yi {
+  background: rgba(107, 143, 113, 0.12);
+  color: #6B8F71;
+}
+
+.yiji-tag-ji {
+  background: rgba(196, 107, 92, 0.12);
+  color: #C46B5C;
+}
+
+.yiji-empty {
+  font-size: 22rpx;
+  color: var(--color-text-hint);
+}
+
+.detail-good-tip {
+  margin-top: 24rpx;
+  padding: 16rpx 24rpx;
+  background: rgba(107, 143, 113, 0.1);
+  border-left: 4rpx solid #6B8F71;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: #6B8F71;
+  line-height: 1.6;
+}
+
+.detail-bad-tip {
+  margin-top: 24rpx;
+  padding: 16rpx 24rpx;
+  background: rgba(196, 107, 92, 0.08);
+  border-left: 4rpx solid #C46B5C;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  color: #C46B5C;
+  line-height: 1.6;
+}
+
+/* ==================== 空提示 ==================== */
+.empty-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 64rpx 0;
+  background: var(--color-card);
+  border-radius: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.empty-hint-icon {
+  font-size: 64rpx;
+  margin-bottom: 12rpx;
+  opacity: 0.6;
+}
+
+.empty-hint-text {
+  font-size: 24rpx;
+  color: var(--color-text-hint);
+}
+
+/* ==================== 底部 ==================== */
+.footer-note {
+  font-size: 24rpx;
+  color: var(--color-text-hint);
+  text-align: center;
+  padding: 32rpx 0;
+}
+
+/* ==================== 推荐吉日弹层 ==================== */
+.recommend-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: flex;
+  align-items: flex-end;
+}
+
+.recommend-panel {
+  width: 100%;
+  height: 80vh;
+  background: var(--color-bg);
+  border-radius: 24rpx 24rpx 0 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.recommend-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx;
+  border-bottom: 1rpx solid var(--color-divider);
+  background: var(--color-card);
+}
+
+.recommend-title-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.recommend-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.recommend-subtitle {
+  font-size: 22rpx;
+  color: var(--color-text-hint);
+  margin-top: 4rpx;
+}
+
+.recommend-close {
+  font-size: 48rpx;
+  color: var(--color-text-hint);
+  line-height: 1;
+  padding: 0 16rpx;
+}
+
+.recommend-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 120rpx 0;
+}
+
+.recommend-empty-icon {
+  font-size: 80rpx;
+  margin-bottom: 24rpx;
+  opacity: 0.5;
+}
+
+.recommend-empty-text {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  margin-bottom: 8rpx;
+}
+
+.recommend-empty-tip {
+  font-size: 22rpx;
+  color: var(--color-text-hint);
+}
+
+.recommend-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80rpx 0;
+  color: var(--color-text-hint);
+  font-size: 26rpx;
+}
+
+.recommend-scroll {
+  flex: 1;
+  padding: 16rpx 24rpx;
+}
+
+.recommend-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  background: var(--color-card);
+  border-radius: 12rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(61, 50, 41, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+.recommend-item-great {
+  background: linear-gradient(135deg, #FFFAF2 0%, #FBF8F3 100%);
+  border: 1rpx solid var(--color-primary-light);
+}
+
+.recommend-item-great::before {
+  content: '极佳';
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--color-primary);
+  color: #FFFFFF;
+  font-size: 18rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 0 0 0 8rpx;
+  font-weight: 500;
+}
+
+.recommend-date-block {
+  flex-shrink: 0;
+  width: 100rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-right: 24rpx;
+  border-right: 1rpx solid var(--color-divider);
+}
+
+.recommend-day {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.recommend-month {
+  font-size: 20rpx;
+  color: var(--color-text-hint);
+  margin-top: 6rpx;
+}
+
+.recommend-weekday {
+  font-size: 18rpx;
+  color: var(--color-text-hint);
+  margin-top: 2rpx;
+}
+
+.recommend-info {
+  flex: 1;
+  padding: 0 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+  overflow: hidden;
+}
+
+.recommend-info-top {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.recommend-jianchu {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.recommend-level {
+  font-size: 18rpx;
+  padding: 2rpx 8rpx;
+  border-radius: 4rpx;
+  font-weight: 500;
+}
+
+.recommend-level-daji {
+  background: rgba(196, 107, 92, 0.12);
+  color: #C46B5C;
+}
+.recommend-level-ji {
+  background: rgba(212, 168, 67, 0.12);
+  color: #D4A843;
+}
+.recommend-level-zhong {
+  background: rgba(140, 123, 107, 0.12);
+  color: var(--color-text-secondary);
+}
+
+.recommend-dao {
+  font-size: 18rpx;
+  font-weight: 500;
+}
+.recommend-dao-huangdao {
+  color: #D4A843;
+}
+.recommend-dao-heidao {
+  color: var(--color-text-hint);
+}
+
+.recommend-gz {
+  font-size: 22rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recommend-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6rpx;
+  margin-top: 4rpx;
+}
+
+.recommend-tag {
+  font-size: 18rpx;
+  padding: 2rpx 8rpx;
+  border-radius: 4rpx;
+}
+
+.recommend-tag-yi {
+  background: rgba(107, 143, 113, 0.12);
+  color: #6B8F71;
+}
+
+.recommend-score-block {
+  flex-shrink: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 2rpx;
+}
+
+.recommend-score-num {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.recommend-score-label {
+  font-size: 18rpx;
+  color: var(--color-primary);
+}

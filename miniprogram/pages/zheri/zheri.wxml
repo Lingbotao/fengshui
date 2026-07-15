@@ -1,0 +1,232 @@
+<!--pages/zheri/zheri.wxml-->
+<view class="page-container">
+  <!--状态栏占位-->
+  <view class="status-bar-placeholder" style="height:{{statusBarHeight}}px"></view>
+
+  <!--占位页：审核期间展示（云端开关关闭时）-->
+  <view wx:if="{{!showRealFeature}}" class="placeholder-page">
+    <view class="placeholder-icon">📅</view>
+    <view class="placeholder-title">重要日子参考</view>
+    <view class="placeholder-desc">
+      婚嫁、搬家、开业… 帮你挑个好时机
+      <text class="placeholder-desc-strong">· 即将上线</text>
+    </view>
+    <view class="placeholder-back" bindtap="goBack">返回上一页</view>
+  </view>
+
+  <!--真实功能：开关开启时展示-->
+  <block wx:if="{{showRealFeature}}">
+
+    <!--页面标题-->
+    <view class="page-header">
+      <text class="page-title">择日参考</text>
+      <text class="page-subtitle">事择其时 · 顺时而行</text>
+    </view>
+
+    <!--事项选择器-->
+    <view class="matter-section">
+      <view class="section-label">
+        <text class="label-dot">·</text>
+        <text>想做什么事？</text>
+      </view>
+      <scroll-view scroll-x="true" class="matter-scroll" enhanced="true" show-scrollbar="{{false}}">
+        <view class="matter-list">
+          <view
+            wx:for="{{matters}}"
+            wx:key="key"
+            class="matter-chip {{currentMatter === item.key ? 'matter-chip-active' : ''}}"
+            bindtap="onMatterChange"
+            data-key="{{item.key}}"
+          >
+            <text class="matter-chip-icon">{{item.icon}}</text>
+            <text class="matter-chip-text">{{item.label}}</text>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <!--月份切换 + 日历-->
+    <view class="calendar-card">
+      <!--月份头-->
+      <view class="calendar-header">
+        <view class="month-nav" bindtap="onPrevMonth">
+          <text class="month-nav-arrow">‹</text>
+        </view>
+        <view class="month-title-wrap">
+          <text class="month-title">{{year}}年 {{month}}月</text>
+          <text class="month-subtitle">{{monthSubtitle}}</text>
+        </view>
+        <view class="month-nav" bindtap="onNextMonth">
+          <text class="month-nav-arrow">›</text>
+        </view>
+      </view>
+
+      <!--星期行-->
+      <view class="weekday-row">
+        <view class="weekday-cell" wx:for="{{weekdays}}" wx:key="*this">
+          <text class="weekday-text {{index === 0 || index === 6 ? 'weekend' : ''}}">{{item}}</text>
+        </view>
+      </view>
+
+      <!--日期格子-->
+      <view class="day-grid">
+        <view
+          wx:for="{{calendarDays}}"
+          wx:key="date"
+          class="day-cell {{item.empty ? 'day-cell-empty' : ''}} {{item.selected ? 'day-cell-selected' : ''}} {{item.isToday ? 'day-cell-today' : ''}}"
+          bindtap="{{item.empty ? '' : 'onDayTap'}}"
+          data-date="{{item.date}}"
+          data-index="{{index}}"
+        >
+          <block wx:if="{{!item.empty}}">
+            <view class="day-num-wrap">
+              <text class="day-num {{item.isToday ? 'day-num-today' : ''}}">{{item.day}}</text>
+              <view wx:if="{{item.festivals && item.festivals.length}}" class="festival-dot"></view>
+            </view>
+            <view class="day-jianchu {{item.levelCls}}">{{item.jianChu}}</view>
+            <view class="day-dao {{item.daoCls}}">{{item.daoType}}</view>
+            <view wx:if="{{item.isGood}}" class="day-good-mark">吉</view>
+          </block>
+        </view>
+      </view>
+
+      <!--图例-->
+      <view class="legend-row">
+        <view class="legend-item">
+          <view class="legend-dot legend-dot-jiri"></view>
+          <text class="legend-text">吉日</text>
+        </view>
+        <view class="legend-item">
+          <view class="legend-dot legend-dot-huangdao"></view>
+          <text class="legend-text">黄道</text>
+        </view>
+        <view class="legend-item">
+          <view class="legend-dot legend-dot-heidao"></view>
+          <text class="legend-text">黑道</text>
+        </view>
+        <view class="legend-item">
+          <view class="legend-dot legend-dot-today"></view>
+          <text class="legend-text">今日</text>
+        </view>
+      </view>
+    </view>
+
+    <!--操作按钮区-->
+    <view class="action-row">
+      <view class="action-btn action-btn-secondary" bindtap="onTodayTap">
+        <text class="action-btn-text">回到今天</text>
+      </view>
+      <view class="action-btn action-btn-primary" bindtap="onFindGoodDays">
+        <text class="action-btn-text">推荐吉日</text>
+      </view>
+    </view>
+
+    <!--选中日期的详情卡-->
+    <view wx:if="{{selectedDay}}" class="detail-card">
+      <view class="detail-header">
+        <view class="detail-date-block">
+          <text class="detail-date-day">{{selectedDay.dayNum}}</text>
+          <view class="detail-date-meta">
+            <text class="detail-date-month">{{selectedDay.monthMonth}}月 · {{selectedDay.weekday}}</text>
+            <text class="detail-date-gz">{{selectedDay.dayGanZhi}}日</text>
+          </view>
+        </view>
+        <view class="detail-jianchu-block">
+          <text class="detail-jianchu">{{selectedDay.jianChu}}</text>
+          <view class="detail-level-tag {{selectedDay.levelCls}}">{{selectedDay.level}}</view>
+          <text class="detail-dao-tag {{selectedDay.daoCls}}">{{selectedDay.daoType}}</text>
+        </view>
+      </view>
+
+      <view class="detail-desc">{{selectedDay.desc}}</view>
+
+      <view class="detail-yiji">
+        <view class="yiji-col yiji-yi">
+          <text class="yiji-title">· 宜 ·</text>
+          <view class="yiji-list">
+            <text wx:for="{{selectedDay.yi}}" wx:key="*this" class="yiji-tag yiji-tag-yi">{{item}}</text>
+            <text wx:if="{{selectedDay.yi.length === 0}}" class="yiji-empty">—</text>
+          </view>
+        </view>
+        <view class="yiji-col yiji-ji">
+          <text class="yiji-title">· 忌 ·</text>
+          <view class="yiji-list">
+            <text wx:for="{{selectedDay.ji}}" wx:key="*this" class="yiji-tag yiji-tag-ji">{{item}}</text>
+            <text wx:if="{{selectedDay.ji.length === 0}}" class="yiji-empty">—</text>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{selectedDay.isGood}}" class="detail-good-tip">
+        <text>✨ 今天很适合「{{currentMatterLabel}}」，建议把握时机</text>
+      </view>
+      <view wx:elif="{{selectedDay.score < 50}}" class="detail-bad-tip">
+        <text>⚠️ 今天不太适合「{{currentMatterLabel}}」，建议改期</text>
+      </view>
+    </view>
+
+    <!--空状态提示（未选日期时）-->
+    <view wx:else class="empty-hint">
+      <text class="empty-hint-icon">👆</text>
+      <text class="empty-hint-text">点击日期查看当日详情</text>
+    </view>
+
+    <!--仅供娱乐参考-->
+    <view class="footer-note">仅供娱乐参考 · 基于传统历法理论</view>
+
+    <!--吉日推荐弹层-->
+    <view wx:if="{{showRecommend}}" class="recommend-mask" bindtap="onCloseRecommend">
+      <view class="recommend-panel" catchtap="">
+        <view class="recommend-header">
+          <view class="recommend-title-wrap">
+            <text class="recommend-title">推荐吉日</text>
+            <text class="recommend-subtitle">「{{currentMatterLabel}}」 · 近三个月内</text>
+          </view>
+          <text class="recommend-close" bindtap="onCloseRecommend">×</text>
+        </view>
+
+        <view wx:if="{{recommendList.length === 0 && !recommendLoading}}" class="recommend-empty">
+          <text class="recommend-empty-icon">🔍</text>
+          <text class="recommend-empty-text">近三个月内没找到特别合适的日子</text>
+          <text class="recommend-empty-tip">建议放宽时间范围或更换事项类型</text>
+        </view>
+
+        <view wx:if="{{recommendLoading}}" class="recommend-loading">
+          <text>寻找吉日中...</text>
+        </view>
+
+        <scroll-view scroll-y="true" class="recommend-scroll">
+          <view
+            wx:for="{{recommendList}}"
+            wx:key="date"
+            class="recommend-item {{item.score >= 100 ? 'recommend-item-great' : ''}}"
+            bindtap="onRecommendItemTap"
+            data-date="{{item.date}}"
+          >
+            <view class="recommend-date-block">
+              <text class="recommend-day">{{item.dayNum}}</text>
+              <text class="recommend-month">{{item.monthLabel}}</text>
+              <text class="recommend-weekday">{{item.weekday}}</text>
+            </view>
+            <view class="recommend-info">
+              <view class="recommend-info-top">
+                <text class="recommend-jianchu">{{item.jianChu}}</text>
+                <text class="recommend-level {{item.levelCls}}">{{item.level}}</text>
+                <text class="recommend-dao {{item.daoCls}}">{{item.daoType}}</text>
+              </view>
+              <text class="recommend-gz">{{item.dayGanZhi}}日 · {{item.desc}}</text>
+              <view class="recommend-tags">
+                <text wx:for="{{item.yi}}" wx:key="*this" wx:for-item="yi" class="recommend-tag recommend-tag-yi">{{yi}}</text>
+              </view>
+            </view>
+            <view class="recommend-score-block">
+              <text class="recommend-score-num">{{item.score}}</text>
+              <text class="recommend-score-label">分</text>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+    </view>
+
+  </block>
+</view>

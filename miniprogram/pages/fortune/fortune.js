@@ -120,4 +120,11 @@ Page({
       url: '/pages/bazi/bazi',
     });
   },
+
+  // 跳转到择日参考页
+  goToZheri: function () {
+    wx.navigateTo({
+      url: '/pages/zheri/zheri',
+    });
+  },
 });

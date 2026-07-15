@@ -39,8 +39,9 @@ const FEATURE_UNLOCKS = {
   // 锁定时 Tab 完全隐藏，解锁后「势头」Tab + 八字排盘入口同时可用
   fortuneTab: localTimestamp('2026-07-06'),
 
-  // 示例：择日工具（未来扩展）
-  // dateSelection: localTimestamp('2026-08-01'),
+  // 择日工具：默认已开放（与 P1 计划对齐）
+  // 锁定可通过设为未来日期启用
+  zheri: 0,
 
   // 示例：分享卡片
   // shareCard: localTimestamp('2026-07-20'),

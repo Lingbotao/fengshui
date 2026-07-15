@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "outDir": "./miniprogram/utils/zheri-js",
+    "rootDir": "./miniprogram/utils/zheri"
+  },
+  "include": ["./miniprogram/utils/zheri/**/*.ts"]
+}

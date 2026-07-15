@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "build:bazi": "tsc -p tsconfig.json"
+    "build:bazi": "tsc -p tsconfig.json",
+    "build:zheri": "tsc -p tsconfig.zheri.json",
+    "build": "npm run build:bazi && npm run build:zheri"
   },
   "devDependencies": {
     "@types/node": "^26.1.0",

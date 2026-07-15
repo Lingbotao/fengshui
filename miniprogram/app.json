@@ -4,6 +4,7 @@
     "pages/fortune/fortune",
     "pages/compass/compass",
     "pages/bazi/bazi",
+    "pages/zheri/zheri",
     "pages/settings/settings"
   ],
   "window": {

@@ -38,6 +38,16 @@
     <text class="bazi-arrow">›</text>
   </view>
 
+  <!--择日参考入口（保持伪装文案，避开敏感词）-->
+  <view class="bazi-entry" bindtap="goToZheri">
+    <text class="bazi-icon">📅</text>
+    <view class="bazi-text-wrap">
+      <text class="bazi-title">重要日子怎么选</text>
+      <text class="bazi-desc">8 大生活场景 · 帮你挑个好时机</text>
+    </view>
+    <text class="bazi-arrow">›</text>
+  </view>
+
   <!--Banner广告-->
   <view class="banner-area">
     <ad unit-id="" ad-type="banner" ad-theme="white"></ad>
