@@ -2,9 +2,6 @@
 /**
  * 择日工具 · 统一入口
  * tsc 编译自 zheri.ts（module: commonjs）
- *
- * 调试说明：包含 console.log/console.table 用于排查评分问题，
- * 上线前请删除调试代码段
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.listMonthJianChu = exports.findGoodDays = exports.evaluateDayForMatter = void 0;
@@ -28,9 +25,20 @@ const DAO_BONUS = 15;
 const DAO_PENALTY = -10;
 const PREFERRED_BONUS = 20;
 const FORBIDDEN_PENALTY = -50;
+/** 通用宜忌中该事项被列为"忌"的减分 */
+const GENERAL_JI_PENALTY = -30;
+/** 通用宜忌中该事项被列为"宜"的加分 */
+const GENERAL_YI_BONUS = 10;
+
+/** 判断事项是否匹配 JIAN_CHU_INFO 中的某个关键词 */
+function matchMatterToKeyword(matter, keyword) {
+  var keywords = constants_1.MATTER_TO_YIJI_KEYWORD[matter];
+  if (!keywords) return false;
+  return keywords.indexOf(keyword) >= 0;
+}
+
 function scoreDay(jianChu, level, daoType, matter) {
-  // 基础分已包含吉凶等级，不再重复加 level 加分
-  let score = JIAN_CHU_BASE_SCORE[jianChu];
+  var score = JIAN_CHU_BASE_SCORE[jianChu];
   if (daoType === '黄道') score += DAO_BONUS;
   else score += DAO_PENALTY;
   if (constants_1.MATTER_PREFERRED[matter].indexOf(jianChu) >= 0) {
@@ -39,18 +47,65 @@ function scoreDay(jianChu, level, daoType, matter) {
   if (constants_1.MATTER_FORBIDDEN[matter].indexOf(jianChu) >= 0) {
     score += FORBIDDEN_PENALTY;
   }
+
+  // ==== 新增：参考 JIAN_CHU_INFO 通用宜忌，与首页 getDailyYiJi 同源 ====
+  var jianChuInfo = constants_1.JIAN_CHU_INFO[jianChu];
+  for (var yiIdx = 0; yiIdx < jianChuInfo.yi.length; yiIdx++) {
+    if (matchMatterToKeyword(matter, jianChuInfo.yi[yiIdx])) {
+      score += GENERAL_YI_BONUS;
+      break;
+    }
+  }
+  for (var jiIdx = 0; jiIdx < jianChuInfo.ji.length; jiIdx++) {
+    if (matchMatterToKeyword(matter, jianChuInfo.ji[jiIdx])) {
+      score += GENERAL_JI_PENALTY;
+      break;
+    }
+  }
+
   return Math.max(0, Math.min(120, score));
 }
+
 function buildYiJiList(jianChu, matter) {
-  const yi = [];
-  const ji = [];
-  if (constants_1.MATTER_PREFERRED[matter].indexOf(jianChu) >= 0) {
+  var yi = [];
+  var ji = [];
+
+  // 来源1：事项专属偏好（优先级最高，避免与通用宜忌矛盾）
+  // 例：开业 PREFERRED=[成,开,定,满] → 当日=满 时优先判"宜开业"
+  // 通用"开市"虽然也在"满.ji"里，但应被事项偏好覆盖，否则会出现"宜开业+忌开业"自相矛盾
+  var isPreferred = constants_1.MATTER_PREFERRED[matter].indexOf(jianChu) >= 0;
+  var isForbidden = constants_1.MATTER_FORBIDDEN[matter].indexOf(jianChu) >= 0;
+
+  if (isPreferred) {
     yi.push(matter);
   }
-  if (constants_1.MATTER_FORBIDDEN[matter].indexOf(jianChu) >= 0) {
+  if (isForbidden) {
     ji.push(matter);
   }
-  return { yi, ji };
+
+  // 来源2：JIAN_CHU_INFO 通用宜忌（与首页 getDailyYiJi 同源）
+  // 只有在"事项专属"未判定时才补充，避免两者冲突
+  if (!isPreferred && !isForbidden) {
+    var jianChuInfo = constants_1.JIAN_CHU_INFO[jianChu];
+    for (var yiIdx = 0; yiIdx < jianChuInfo.yi.length; yiIdx++) {
+      if (matchMatterToKeyword(matter, jianChuInfo.yi[yiIdx])) {
+        yi.push(matter);
+        break;
+      }
+    }
+    for (var jiIdx = 0; jiIdx < jianChuInfo.ji.length; jiIdx++) {
+      if (matchMatterToKeyword(matter, jianChuInfo.ji[jiIdx])) {
+        ji.push(matter);
+        break;
+      }
+    }
+  }
+
+  // 去重
+  return {
+    yi: yi.filter(function(v, i, a) { return a.indexOf(v) === i; }),
+    ji: ji.filter(function(v, i, a) { return a.indexOf(v) === i; }),
+  };
 }
 function evaluateDayForMatter(year, month, day, matter) {
   const base = jianChu_1.evaluateDay(year, month, day);

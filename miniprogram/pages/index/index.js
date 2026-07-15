@@ -2,6 +2,7 @@
 const { createStoreBindings } = require('mobx-miniprogram-bindings');
 const { store } = require('../../store/userStore');
 const { isAuditSwitchOn, refreshFeatureFlags } = require('../../utils/featureFlags.js');
+const { getDailyYiJi } = require('../../utils/zheri-js/index.js');
 
 Page({
   data: {
@@ -154,13 +155,28 @@ Page({
 
   // 应用黄历数据到页面
   applyAlmanacData: function (data) {
+    // 关键：用本地择日算法覆盖云端的 yi/ji
+    // 原因：云端 getDailyAlmanac 旧版用 baseYi/baseJi 随机切片，与择日页不同源
+    // 改为本地 getDailyYiJi 后，首页和择日页共用同一份 JIAN_CHU_INFO
+    let yiList = data.yi || [];
+    let jiList = data.ji || [];
+    try {
+      const dateStr = data.date || this.formatDate(new Date());
+      const [y, m, d] = dateStr.split('-').map(Number);
+      const localYiJi = getDailyYiJi(y, m, d);
+      if (localYiJi && localYiJi.yi && localYiJi.yi.length) yiList = localYiJi.yi;
+      if (localYiJi && localYiJi.ji && localYiJi.ji.length) jiList = localYiJi.ji;
+    } catch (e) {
+      console.warn('[Index] 本地宜忌覆盖失败，回退云端数据', e);
+    }
+
     this.setData({
       lunarDate: data.lunar,
       ganzhiYear: data.ganzhi?.year,
       gregorianDate: data.day,
       weekDay: data.weekDay,
-      yiList: data.yi || [],
-      jiList: data.ji || [],
+      yiList,
+      jiList,
       chongshaZodiac: data.chongsha?.zodiac || '',
       chongshaDirection: data.chongsha?.direction || '',
       caishenDirection: data.jiShenFangWei?.caishen || '正南',
@@ -170,20 +186,32 @@ Page({
       isLoading: false,
     });
 
-    // 保存到 Store
+    // 保存到 Store（注意：Store 用云端原数据，避免影响其他已稳定依赖 Store 的页面）
     store.setDailyAlmanac(data);
     store.setWuxingClothes(data.wuXingClothes || []);
   },
 
-  // 设置模拟数据（开发调试用）
+  // 设置模拟数据（开发调试用，无云能力时）
   setMockData: function () {
+    // 同样用本地择日算法生成宜忌，避免无云能力时也出现首页/择日不一致
+    let yiList = ['祭祀', '祈福', '开光', '订盟', '纳采'];
+    let jiList = ['动土', '破土', '安葬', '针灸', '伐木'];
+    try {
+      const now = new Date();
+      const localYiJi = getDailyYiJi(now.getFullYear(), now.getMonth() + 1, now.getDate());
+      if (localYiJi && localYiJi.yi && localYiJi.yi.length) yiList = localYiJi.yi;
+      if (localYiJi && localYiJi.ji && localYiJi.ji.length) jiList = localYiJi.ji;
+    } catch (e) {
+      console.warn('[Index] setMockData 本地宜忌生成失败', e);
+    }
+
     this.setData({
       lunarDate: '六月十二',
       ganzhiYear: '乙巳年',
       gregorianDate: '23',
       weekDay: '星期一',
-      yiList: ['祭祀', '祈福', '开光', '订盟', '纳采'],
-      jiList: ['动土', '破土', '安葬', '针灸', '伐木'],
+      yiList,
+      jiList,
       chongshaZodiac: '兔',
       chongshaDirection: '东',
       caishenDirection: '正南',

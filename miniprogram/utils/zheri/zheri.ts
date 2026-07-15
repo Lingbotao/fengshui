@@ -16,8 +16,10 @@
 
 import {
   JIAN_CHU_DAO,
+  JIAN_CHU_INFO,
   MATTER_PREFERRED,
   MATTER_FORBIDDEN,
+  MATTER_TO_YIJI_KEYWORD,
   type MatterType,
   type JianChu,
   type JianChuLevel,
@@ -50,6 +52,20 @@ const DAO_PENALTY = -10;
 const PREFERRED_BONUS = 20;
 /** 事项禁忌减分 */
 const FORBIDDEN_PENALTY = -50;
+/** 通用宜忌中该事项被列为"忌"的减分 */
+const GENERAL_JI_PENALTY = -30;
+/** 通用宜忌中该事项被列为"宜"的加分 */
+const GENERAL_YI_BONUS = 10;
+
+/**
+ * 判断事项是否匹配 JIAN_CHU_INFO 中的某个关键词
+ * 例如 "婚嫁" 匹配 JIAN_CHU_INFO 中的 "嫁娶" 或 "结婚"
+ */
+function matchMatterToKeyword(matter: MatterType, keyword: string): boolean {
+  const keywords = MATTER_TO_YIJI_KEYWORD[matter];
+  if (!keywords) return false;
+  return keywords.includes(keyword);
+}
 
 /**
  * 计算单日针对指定事项的综合评分
@@ -60,34 +76,47 @@ function scoreDay(
   daoType: '黄道' | '黑道',
   matter: MatterType
 ): number {
-  // 基础分已包含吉凶等级（大吉=开 85，凶=危 40，大凶=破 15），
-  // 不再重复加 level 加分，避免"开日+大吉"双重计算
   let score = JIAN_CHU_BASE_SCORE[jianChu];
 
   // 黄道/黑道
   if (daoType === '黄道') score += DAO_BONUS;
   else score += DAO_PENALTY;
 
-  // 事项偏好
+  // 事项偏好（MATTER_PREFERRED 表）
   if (MATTER_PREFERRED[matter].includes(jianChu)) {
     score += PREFERRED_BONUS;
   }
-  // 事项禁忌
+  // 事项禁忌（MATTER_FORBIDDEN 表）
   if (MATTER_FORBIDDEN[matter].includes(jianChu)) {
     score += FORBIDDEN_PENALTY;
   }
 
-  // 范围 0-120（开 85 + 黄道 15 + 偏好 20 = 120）
+  // ==== 新增：参考 JIAN_CHU_INFO 通用宜忌，与首页 getDailyYiJi 同源 ====
+  const jianChuInfo = JIAN_CHU_INFO[jianChu];
+  // 通用宜：如果 JIAN_CHU_INFO 的 yi 中包含该事项的关键词，加分
+  for (const yiItem of jianChuInfo.yi) {
+    if (matchMatterToKeyword(matter, yiItem)) {
+      score += GENERAL_YI_BONUS;
+      break;
+    }
+  }
+  // 通用忌：如果 JIAN_CHU_INFO 的 ji 中包含该事项的关键词，减分
+  for (const jiItem of jianChuInfo.ji) {
+    if (matchMatterToKeyword(matter, jiItem)) {
+      score += GENERAL_JI_PENALTY;
+      break;
+    }
+  }
+
   return Math.max(0, Math.min(120, score));
 }
 
 /**
  * 生成某事项的宜/忌列表（基于当日建除）
  *
- * 规则：与评分逻辑同源，只用 MATTER_PREFERRED / MATTER_FORBIDDEN 表
- * - 建除是该事项的偏好 → 宜
- * - 建除是该事项的禁忌 → 忌
- * - 不再使用 JIAN_CHU_INFO 的通用宜忌（避免与事项偏好冲突）
+ * 优先级：事项专属偏好 > JIAN_CHU_INFO 通用宜忌
+ * 原因：两者可能冲突（如开业 PREFERRED 含「满」+ 满.ji 含「开市」关键字匹配「开业」，
+ *      若同时合并会出现「宜开业 + 忌开业」自相矛盾）。以事项专属为准。
  */
 function buildYiJiList(
   jianChu: JianChu,
@@ -95,13 +124,39 @@ function buildYiJiList(
 ): { yi: string[]; ji: string[] } {
   const yi: string[] = [];
   const ji: string[] = [];
-  if (MATTER_PREFERRED[matter].includes(jianChu)) {
+
+  // 来源1：事项专属偏好（优先级最高）
+  const isPreferred = MATTER_PREFERRED[matter].includes(jianChu);
+  const isForbidden = MATTER_FORBIDDEN[matter].includes(jianChu);
+
+  if (isPreferred) {
     yi.push(matter);
   }
-  if (MATTER_FORBIDDEN[matter].includes(jianChu)) {
+  if (isForbidden) {
     ji.push(matter);
   }
-  return { yi, ji };
+
+  // 来源2：JIAN_CHU_INFO 通用宜忌（仅在专属未判定时补充）
+  if (!isPreferred && !isForbidden) {
+    const jianChuInfo = JIAN_CHU_INFO[jianChu];
+    for (const yiItem of jianChuInfo.yi) {
+      if (matchMatterToKeyword(matter, yiItem)) {
+        yi.push(matter);
+        break;
+      }
+    }
+    for (const jiItem of jianChuInfo.ji) {
+      if (matchMatterToKeyword(matter, jiItem)) {
+        ji.push(matter);
+        break;
+      }
+    }
+  }
+
+  return {
+    yi: [...new Set(yi)],
+    ji: [...new Set(ji)],
+  };
 }
 
 /**
@@ -179,25 +234,6 @@ export function findGoodDays(
   const allEvaluations: DayEvaluation[] = dates.map(({ y, m, d }) =>
     evaluateDayForMatter(y, m, d, matter)
   );
-
-  // === 调试：打印近 7 天评估明细 ===
-  const debugDays = allEvaluations.slice(0, 7);
-  console.log(`[择日调试] 事项=${matter} 范围=${formatDate(startYear,startMonth,startDay)}~${formatDate(endYear,endMonth,endDay)} minScore=${minScore}`);
-  console.table(debugDays.map((d) => ({
-    date: d.date,
-    jianChu: d.jianChu,
-    daoType: d.daoType,
-    level: d.level,
-    dayGanZhi: d.dayGanZhi,
-    score: d.score,
-    yi: d.yi.slice(0, 3).join('、'),
-  })));
-  console.log('[择日调试] Top 5:', allEvaluations
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 5)
-    .map((d) => `${d.date}(${d.jianChu},${d.score}分)`)
-    .join(' | '));
-  // === 调试结束 ===
 
   // 过滤 + 排序
   const goodDays = allEvaluations

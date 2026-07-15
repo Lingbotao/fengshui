@@ -285,13 +285,25 @@ Page({
     const key = e.currentTarget.dataset.key;
     const matter = this.data.matters.find(m => m.key === key);
     if (!matter) return;
+
+    // 保留之前选中的日期：切事项后仍按当前选中日刷新详情，
+    // 而不是清空，避免用户反复点选。
+    const prevSelectedDate = this.data.selectedDay ? this.data.selectedDay.date : null;
+
     this.setData({
       currentMatter: key,
       currentMatterLabel: matter.label,
-      selectedDay: null, // 切事项后清空选中
     });
     // 重建当月日历（新事项的评分体系）
     this.buildCalendar(this.data.year, this.data.month);
+
+    // 重建完成后，如果有选中日期，按新事项重新计算详情
+    if (prevSelectedDate) {
+      const idx = this.data.calendarDays.findIndex(c => c.date === prevSelectedDate);
+      if (idx >= 0) {
+        this.selectDay(prevSelectedDate, idx);
+      }
+    }
   },
 
   // ==================== 点击日期 ====================
