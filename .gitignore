@@ -2,6 +2,7 @@
 node_modules/
 miniprogram/miniprogram_npm/
 miniprogram/package-lock.json
+tmp_compiled/
 
 # 云函数依赖（每个云函数有独立的 node_modules）
 cloudfunctions/*/node_modules/
@@ -18,6 +19,5 @@ project.private.config.json
 *.log
 npm-debug.log*
 
-# 云开发环境配置（敏感信息，不提交）
+# 云开发环境配置（真实 ID 不提交，仅保留模板）
 miniprogram/env.js
-miniprogram/env.example.js

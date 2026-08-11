@@ -2,14 +2,21 @@
 
 一站式生活风水工具，覆盖每日宜忌、五行穿衣、运势速览、电子罗盘等高频场景，打造用户每日打开的生活仪式。
 
+> **定位（PRD v1.1）**：差异化叙事从「户型独家」转向「**一站式生活风水广度壁垒**」——竞品碎片化（用户需装 3-4 个 App），本产品一站解决。
+>
+> **M1（已实现）**：6 项 P0 功能——每日宜忌、五行穿衣、运势速览、电子罗盘、Banner 广告、用户设置。
+> **M2（开发中）**：八字排盘、择日、激励视频、分享卡片、每日推送、插屏广告。
+
 ## 技术栈
 
 | 层面 | 选型 |
 |------|------|
 | 框架 | 微信原生开发 |
-| UI 组件库 | Vant Weapp ^1.11 |
-| 状态管理 | MobX + globalData |
+| UI 组件库 | @vant/weapp ^1.11.7 |
+| 状态管理 | mobx-miniprogram ^6.12 + globalData |
 | 后端 | 微信云开发（云函数 Node.js 18 + 云数据库 + 云存储） |
+| 黄历算法 | 自研万年历（cnlunar 兜底） |
+| 八字 / 择日 | TypeScript 算法库 + 纯前端计算 |
 | 定时任务 | 云函数定时触发器（cron 每日 0:00） |
 
 ## 项目结构
@@ -19,41 +26,37 @@ fengshui/
 ├── miniprogram/                 # 小程序前端
 │   ├── pages/                   # 页面目录
 │   │   ├── index/               # 首页（每日宜忌）
-│   │   ├── wuxing/              # 五行穿衣
 │   │   ├── fortune/             # 运势速览
-│   │   └── compass/             # 电子罗盘
+│   │   ├── compass/             # 电子罗盘
+│   │   ├── settings/            # 用户设置（生肖/性别/出生年份）
+│   │   ├── bazi/                # 八字排盘（M2）
+│   │   ├── zheri/               # 择日工具（M2）
+│   │   └── example/             # 云开发示例页
 │   ├── components/              # 公共组件
-│   ├── stores/                  # MobX Store
+│   │   └── cloudTipModal/       # 云开发提示弹窗
 │   ├── utils/                   # 工具函数
+│   │   ├── featureFlags.js      # 功能可见性控制（审核前后差异）
+│   │   ├── featureUnlocks.js    # 功能解锁开关
+│   │   ├── bazi/                # 八字算法 TS 源码
+│   │   ├── bazi-js/             # 八字算法编译产物
+│   │   ├── zheri/               # 择日算法 TS 源码
+│   │   └── zheri-js/            # 择日算法编译产物
 │   ├── app.js / app.json / app.wxss
 │   └── package.json
 ├── cloudfunctions/              # 云函数
-│   ├── getAlmanac/              # 黄历数据 API
-│   ├── saveSettings/            # 用户设置 API
-│   └── scheduledGenAlmanac/     # 每日定时生成黄历
+│   ├── getDailyAlmanac/         # 每日黄历数据 API
+│   ├── getUserSettings/         # 读取用户设置
+│   ├── saveUserSettings/        # 保存用户设置
+│   ├── getFortune/              # 运势速览 API
+│   ├── getBaziRecords/          # 八字记录列表
+│   ├── saveBaziRecord/          # 保存八字记录
+│   ├── deleteBaziRecord/        # 删除八字记录
+│   └── quickstartFunctions/     # 云开发快速入门示例
+├── docs/
+│   └── feature-flags.md         # 功能开关机制说明
+├── tests/                       # 测试
 └── project.config.json
 ```
-
-## 功能规划
-
-### P0 — V1.0（M1）
-
-| 功能 | 说明 |
-|------|------|
-| 每日宜忌 | 自研万年历算法，日历卡片展示黄历 |
-| 五行穿衣 | 基于当日干支推荐幸运色 |
-| 运势速览 | 基于生肖+性别展示每日运势 |
-| 电子罗盘 | 调用手机传感器，实时方位+24山 |
-
-### P1 — V1.1~V1.2（M2）
-
-| 功能 | 说明 |
-|------|------|
-| 八字排盘 | 纯前端计算，隐私数据不上传 |
-| 择日工具 | 事项+时间范围 → 推荐吉日 |
-| 分享裂变 | 生成运势卡片分享到微信群 |
-
-详细 PRD 见 `deliverables/product-strategy/`。
 
 ## 快速开始
 
@@ -70,8 +73,13 @@ cd miniprogram && npm install
 
 # 2. 微信开发者工具 → 工具 → 构建 npm
 
-# 3. 云函数依赖（每个云函数目录下）
-cd cloudfunctions/getAlmanac && npm install
+# 3. 编译八字 / 择日 TS 算法库（按需）
+npm run build          # 编译 bazi + zheri
+npm run build:bazi     # 仅八字
+npm run build:zheri    # 仅择日
+
+# 4. 云函数依赖（每个云函数目录下）
+cd cloudfunctions/getDailyAlmanac && npm install
 ```
 
 ### 云开发环境
@@ -82,3 +90,13 @@ cd cloudfunctions/getAlmanac && npm install
 wx.cloud.init({ env: 'your-env-id' })
 ```
 
+### 功能开关（审核前/上线后）
+
+通过 `miniprogram/utils/featureFlags.js` 控制功能可见性，无需改代码、无需重新提审。详见 [docs/feature-flags.md](docs/feature-flags.md)。
+
+## 部署脚本
+
+```bash
+# 上传所有云函数到云开发环境
+./uploadCloudFunction.sh
+```
